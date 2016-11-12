@@ -10,4 +10,4 @@ OR
 Hello -> Home -> Venue_Page
 
 
-
+(ignore welcom_get.php and venuedb.php. They should eventually be deleted.)
