@@ -28,19 +28,7 @@
         die("Connection falied: " . $conn->connect_error);
         } 
 
-
-        $confirmation = rand(1000000, 9000000);
-        //$selectedTable = ??? Table clicked
-        $cid = 796325; //hardcoded to be my cid for now
-        
-        // $date = selected date from table??
-
-        //confirmation# the # is bad need to change name in db
-        //****!!!! again we DO NOT have cid - need session management ****!!!!
         $sql = "SELECT tableNum, type FROM `venuehastable` WHERE branchID = '$branchID'";
-
-        // $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES '$confirmation', '$selectedTable', '$branchID', '$cid', '$date'";
-
 
         $table_option = "";
         $result = $conn->query($sql);
@@ -72,11 +60,11 @@
             $day_option.='<option value="'.$day_database_format.'">'.$day_user_format.'</option>';    
         } 
 
+        //dropdown of working hours
         $time_option='';
         $starttime= date("H:i:s", mktime(0, 0, 0));
         for ($y = 9; $y < 24; $y++) {
             $timer='+'.$y.' hour';
-            //$timeafter=strtotime($timer);
             $timeafter=strtotime($timer, strtotime($starttime));
             $time_database_format= date("H:i:s",$timeafter);
             $time_user_format= date("h:i A",$timeafter); 
@@ -85,7 +73,7 @@
 
         $number_of_guests = '';
         for($z = 1; $z < 11; $z++){
-            $number_of_guests.='<option value="'.$z.'">'.$z.' guest(s)</option>'; //don't know why this won't populate
+            $number_of_guests.='<option value="'.$z.'">'.$z.' guest(s)</option>';
         }
 
         $date_picker='<select name="date">'.$day_option.'</select>';
@@ -123,19 +111,57 @@
 
         $sql = "SELECT *  FROM `tablereservation` WHERE tableNum = '$selected_table' AND date = '$selected_date' AND time = '$selected_time' AND branchID = '$selected_branchID'";
 
+        $sql2 = "SELECT size, cost, numOfTableType FROM `venuehastable` WHERE tableNum = '$selected_table' AND branchID = '$selected_branchID'";
+        $result2 = $conn->query($sql2);
+        if($result2->num_rows > 0) {
+            while($row2 = $result2->fetch_assoc()) {
+                $size=$row2["size"];
+                $cost=$row2["cost"];
+                $numOfTableType=$row2["numOfTableType"];
+            }
+        }
+
+        //variables for insert into query
+        $confirmationNum = rand(1000000, 9000000);
+        $cid = 796325; //hardcoded to be my cid for now - session management later
+       
+        $totalNumOfGuests = 0;
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             // output data of each row
-            echo "Sorry, this table has been reserved at this time/date. Please pick another date/time.";
-        } else {
-            echo "Reservation made!";
+            while($row = $result->fetch_assoc()) {
+                $numOfGuests=$row["numOfGuests"];
+                $totalNumOfGuests +=  $numOfGuests;
+             }
+
+            if(($totalNumOfGuests + $selected_guests) > ($numOfTableType*$size)){
+                echo "Sorry, this table has been reserved at this time/date. Please pick another time/date.";
+            } 
+            else {
+                //if time/date conflict: make a reservation if there are free tables in the section on that date/time
+                //selectedTable has value tableNum, but in the sropdown the user picks table type
+                echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
+                //add INSERT INTO query
+
+                $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
+                $conn->query($sqlInsertReservation);
+                
+            }
+
+
+        }else {
+            //no time/date conflict so just make a reservation without checking for the number of spaces taken up
+            echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
+            //add INSERT INTO query
+            $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
+            $conn->query($sqlInsertReservation);
+   
         }
-
-
+            
         $conn->close();
 
 
-        }
+    }
         ?>
 
     </body>
