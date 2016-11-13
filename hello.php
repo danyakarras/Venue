@@ -12,7 +12,7 @@
   <script>
     var btn = document.getElementById('myBtn');
     btn.addEventListener('click', function() {
-      document.location.href = 'http://localhost/cs304proj/home.php';
+      document.location.href = 'http://localhost/304_project/home.php';
     });
   </script>
   
