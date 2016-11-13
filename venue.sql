@@ -182,7 +182,7 @@ INSERT INTO `staffemployed` (`sid`, `f_name`, `l_name`, `branchID`) VALUES
 --
 
 CREATE TABLE `tablereservation` (
-  `confirmation#` int(11) NOT NULL,
+  `confirmationNum` int(11) NOT NULL,
   `tableNum` int(11) NOT NULL,
   `numOfGuests` int(11) NOT NULL,
   `branchID` int(11) NOT NULL,
@@ -195,9 +195,12 @@ CREATE TABLE `tablereservation` (
 -- Dumping data for table `tablereservation`
 --
 
-INSERT INTO `tablereservation` (`confirmation#`, `tableNum`, `numOfGuests`, `branchID`, `cid`, `date`, `time`) VALUES
+INSERT INTO `tablereservation` (`confirmationNum`, `tableNum`, `numOfGuests`, `branchID`, `cid`, `date`, `time`) VALUES
 (1032158, 10, 0, 69435, 90638, '2016-12-02', '10:00:00'),
-(3669852, 12, 0, 69435, 643102, '2016-11-15', '19:00:00'),
+(2365222, 12, 10, 69435, 649588, '2016-11-15', '19:00:00'),
+(3486572, 12, 5, 69435, 796325, '2016-11-22', '11:00:00'),
+(3669852, 12, 116, 69435, 643102, '2016-11-15', '19:00:00'),
+(4008301, 1, 3, 69435, 796325, '2016-11-16', '09:00:00'),
 (4569873, 12, 0, 69435, 236011, '2016-12-01', '21:00:00'),
 (7362134, 10, 0, 89200, 643102, '2016-12-31', '22:00:00'),
 (9730154, 3, 0, 89200, 796325, '2016-12-24', '20:30:00');
@@ -260,6 +263,7 @@ CREATE TABLE `venuehastable` (
   `tableNum` int(11) NOT NULL,
   `size` int(11) NOT NULL,
   `type` varchar(20) NOT NULL,
+  `numOfTableType` int(11) NOT NULL,
   `cost` double NOT NULL,
   `branchID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -268,12 +272,12 @@ CREATE TABLE `venuehastable` (
 -- Dumping data for table `venuehastable`
 --
 
-INSERT INTO `venuehastable` (`tableNum`, `size`, `type`, `cost`, `branchID`) VALUES
-(1, 2, 'intimate', 30, 69435),
-(2, 8, 'bar', 100, 89200),
-(3, 10, 'regular', 50, 89200),
-(10, 4, 'booth', 20, 89200),
-(12, 6, 'patio', 30, 69435);
+INSERT INTO `venuehastable` (`tableNum`, `size`, `type`, `numOfTableType`, `cost`, `branchID`) VALUES
+(1, 2, 'intimate', 10, 30, 69435),
+(2, 8, 'bar', 5, 100, 89200),
+(3, 10, 'regular', 15, 50, 89200),
+(10, 4, 'booth', 8, 20, 89200),
+(12, 6, 'patio', 20, 30, 69435);
 
 --
 -- Indexes for dumped tables
@@ -319,7 +323,7 @@ ALTER TABLE `staffemployed`
 -- Indexes for table `tablereservation`
 --
 ALTER TABLE `tablereservation`
-  ADD PRIMARY KEY (`confirmation#`);
+  ADD PRIMARY KEY (`confirmationNum`);
 
 --
 -- Indexes for table `tableserved`
