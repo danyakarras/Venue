@@ -1,21 +1,12 @@
 <html>
 <head>
-<style>
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
 
-table, td, th {
-    border: 1px solid black;
-    padding: 5px;
-}
-
-th {text-align: left;}
-</style>
 </head>
 <body>
 <?php 
+
+$evid = $_GET['evid'];
+//$branchID = $_GET['branchID'];
 
 $servername = "localhost";
 $username = "root";
@@ -31,43 +22,45 @@ if($conn->connect_error) {
 }
 
 
-$branchID = $_GET['venues']; 
- echo $branchID . "<br>";
+$sql = "SELECT ev.evid AS evid, en.enid AS enid, ev.name AS eventName, date, start_time, en.name AS enName, genre, v.name AS venueName, address, ev.price AS eventPrice FROM `venue` v, `hostedevent` ev, `playsat` p, `entertainment` en, `buysticketsfor`t WHERE ev.branchID = p.branchID AND ev.evid = p.evid AND en.enid = p.enid AND v.branchID = p.branchID AND t.evid = ev.evid AND ev.evid = '$evid' AND p.evid = '$evid'  AND t.evid = '$evid'";
 
-$sql = "SELECT name, date, start_time FROM `hostedevent` WHERE branchID = $branchID";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "Name: " . $row["name"]. " - Date: " . $row["date"]. " " . $row["start_time"]. "<br>";
+
+        $evid = $row["evid"];
+        $enid = $row["enid"];
+
+        $eventName = $row["eventName"];
+        $eventPrice = $row["eventPrice"];
+        $date = $row["date"];
+        $time = $row["start_time"];
+
+        $enName = $row["enName"];
+        $enGenre = $row["genre"];
+
+        $venueName = $row["venueName"];
+        $venueAddress = $row["address"];
+        
     }
 } else {
     echo "0 results";
 }
-echo "HOW THE HELL DO WE MAKE A TABLE";
-//TODO:
-//FIX THIS (MAKE A TABLE)
-echo "<table>
-<tr>
-<th>Name</th>
-<th>Date</th>
-<th>start_time</th>
-</tr>";
-while($row = $result->fetch_assoc()) {
-    echo "<tr>";
-    echo "<td>" . $row['name'] . "</td>";
-    echo "<td>" . $row['date'] . "</td>";
-    echo "<td>" . $row['start_time'] . "</td>";
-    echo "</tr>";
-}
-echo "</table>";
+
+//I don't want it to be a table, just tell them all the info in paragraphs below
 
 $conn->close();
 
-
-
  ?>
+
+<h2><?php echo $eventName;?> </h2>
+<h3>Be there at <?php echo $time;?> on <?php echo $date;?>.</h3>
+<p><?php echo $enName;?> of <?php echo $enGenre;?> genre will be playing.</p>
+<p>Individual tickets for this event are $<?php echo $eventPrice;?></p>
+<p>This event is at <?php echo $venueName;?> located at <?php echo $venueAddress;?></p>
+<p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid=<?php echo $row["evid"]; ?>"><button>Buy my ticket!</button></a></p>
 
 </body>
 </html>
