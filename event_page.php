@@ -1,12 +1,28 @@
-<html>
+<?php
+session_start();
+if ( isset($_SESSION['user'])=="" ) {
+    header("Location: index.php");
+    exit;
+  }
+else
+{
+$cid=$_SESSION['user'];
+$username=$_SESSION['username'];
+
+
+
+?><html>
 <head>
 
 </head>
 <body>
+
+<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
+
 <?php 
 
 $evid = $_GET['evid'];
-//$branchID = $_GET['branchID'];
+
 
 $servername = "localhost";
 $username = "root";
@@ -22,7 +38,7 @@ if($conn->connect_error) {
 }
 
 
-$sql = "SELECT ev.evid AS evid, en.enid AS enid, ev.name AS eventName, date, start_time, en.name AS enName, genre, v.name AS venueName, address, ev.price AS eventPrice FROM `venue` v, `hostedevent` ev, `playsat` p, `entertainment` en, `buysticketsfor`t WHERE ev.branchID = p.branchID AND ev.evid = p.evid AND en.enid = p.enid AND v.branchID = p.branchID AND t.evid = ev.evid AND ev.evid = '$evid' AND p.evid = '$evid'  AND t.evid = '$evid'";
+$sql = "SELECT ev.evid AS evid, en.enid AS enid, ev.name AS eventName, date, start_time, en.name AS enName, genre, v.name AS venueName, address, ev.price AS eventPrice, v.branchID AS branchID FROM `venue` v, `hostedevent` ev, `playsat` p, `entertainment` en, `buysticketsfor`t WHERE ev.branchID = p.branchID AND ev.evid = p.evid AND en.enid = p.enid AND v.branchID = p.branchID AND t.evid = ev.evid AND ev.evid = '$evid' AND p.evid = '$evid'  AND t.evid = '$evid'";
 
 $result = $conn->query($sql);
 
@@ -43,6 +59,7 @@ if ($result->num_rows > 0) {
 
         $venueName = $row["venueName"];
         $venueAddress = $row["address"];
+        $branchID = $row["branchID"];
         
     }
 } else {
@@ -60,7 +77,10 @@ $conn->close();
 <p><?php echo $enName;?> of <?php echo $enGenre;?> genre will be playing.</p>
 <p>Individual tickets for this event are $<?php echo $eventPrice;?></p>
 <p>This event is at <?php echo $venueName;?> located at <?php echo $venueAddress;?></p>
-<p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid=<?php echo $row["evid"]; ?>"><button>Buy my ticket!</button></a></p>
+<p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid=<?php echo $evid; ?>&branchID=<?php echo $branchID; ?>"><button>Buy my ticket!</button></a></p>
 
 </body>
 </html>
+<?php
+}
+?>

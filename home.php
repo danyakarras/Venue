@@ -1,15 +1,35 @@
+<?php
+session_start();
+if ( isset($_SESSION['user'])=="" ) {
+    header("Location: index.php");
+    exit;
+  }
+else
+{
+$cid=$_SESSION['user'];
+$username=$_SESSION['username'];
+
+
+
+?>
 <!DOCTYPE html>
 <html>
 <body>
 
+<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
+
+
 <h1>Welcome to VENUE</h1>
 <h2>Where all your dreams come true</h2>
 <br>
+
 <a href="http://localhost/304_project/events.php"><button class="button" style="width:150px;height:50px;" id="EventsBtn" >Browse all Events</button></a>
   <br>
   <br>
   
-  <?php 
+  <?php
+
+
 $servername = "localhost";
 $username = "root";
 $password = NULL;
@@ -45,8 +65,12 @@ $conn->close();
  
   <br>
   <?php echo $venue_stringList; ?>
-  <!--The above isn't working but this just creates a button for now -->
+  <!--The above just creates a buttons -->
 
 
 </body>
 </html>
+
+<?php
+}
+?>

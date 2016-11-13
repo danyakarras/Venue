@@ -1,9 +1,22 @@
-<!--Venue Page-->
+<?php
+session_start();
+if ( isset($_SESSION['user'])=="" ) {
+    header("Location: index.php");
+    exit;
+  }
+else
+{
+$cid=$_SESSION['user'];
+$username=$_SESSION['username'];
+
+
+
+?><!--Venue Page-->
 <!DOCTYPE html>
 <html>
 <body>
 
-
+<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
 
 <!-- DO WE NEED TO DO THIS EVERY TIME WE MAKE A QUERY? -->
 <?php 
@@ -83,4 +96,6 @@ $conn->close();
  
  </body>
 </html>
- 
+ <?php
+}
+?>
