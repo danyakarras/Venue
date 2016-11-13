@@ -1,4 +1,17 @@
+<?php
+session_start();
+if ( isset($_SESSION['user'])=="" ) {
+    header("Location: index.php");
+    exit;
+  }
+else
+{
+$cid=$_SESSION['user'];
+$username=$_SESSION['username'];
 
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +51,7 @@
 </head>
 
 <body>
-
+<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
 <h1>Browse Events!</h1>
 
 <?php 
@@ -95,3 +108,6 @@ echo $checkboxList. '<button onclick="filterEvents()">Filter</button><hr>'.$even
 
 </body>
 </html>
+<?php
+}
+?>

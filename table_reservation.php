@@ -1,3 +1,18 @@
+<?php
+session_start();
+if ( isset($_SESSION['user'])=="" ) {
+    header("Location: index.php");
+    exit;
+  }
+else
+{
+$cid=$_SESSION['user'];
+$username=$_SESSION['username'];
+
+
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +25,7 @@
         </script>
     </head>
     <body>
-
+<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
         <?php 
 
         $branchID = $_GET['branchID'];
@@ -123,7 +138,7 @@
 
         //variables for insert into query
         $confirmationNum = rand(1000000, 9000000);
-        $cid = 796325; //hardcoded to be my cid for now - session management later
+        
        
         $totalNumOfGuests = 0;
         $result = $conn->query($sql);
@@ -166,3 +181,6 @@
 
     </body>
 </html>
+<?php
+}
+?>
