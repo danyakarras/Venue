@@ -47,6 +47,9 @@ INSERT INTO `buysticketsfor` (`evid`, `ticketID`, `cid`, `branchID`) VALUES
 (345, '2r9s7', 763347, 16502),
 (234, '3c4d6', 649588, 89200),
 (567, '3t9p8', 236011, 11447),
+(567, '4106', 796325, 11447),
+(567, '4346', 796325, 11447),
+(123, '6603', 796325, 89200),
 (123, 'v6ty9', 643102, 89200);
 
 -- --------------------------------------------------------
@@ -69,12 +72,12 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`cid`, `f_name`, `l_name`, `hotness`, `email`, `password`) VALUES
-(90638, 'Rick', 'Martinez', NULL, 'rickym@yahoo.com', NULL),
-(236011, 'Michael', 'Young', 9, 'hot@hotmail.ca', NULL),
-(643102, 'Alena', 'Safina', 10, 'alena@ubccs.ca', NULL),
-(649588, 'Eric', 'Thompson', 7, 'nerd92@gmail.com', NULL),
-(763347, 'Danya', 'Karras', 10, 'danya@ubccs.ca', NULL),
-(796325, 'Diana', 'Jagodic', 10, 'diana@ubccs.ca', NULL);
+(90638, 'Rick', 'Martinez', NULL, 'rickym@yahoo.com', 'ricky'),
+(236011, 'Michael', 'Young', 9, 'hot@hotmail.ca', 'imhot'),
+(643102, 'Alena', 'Safina', 10, 'alena@ubccs.ca', 'alena'),
+(649588, 'Eric', 'Thompson', 7, 'nerd92@gmail.com', 'nerd'),
+(763347, 'Danya', 'Karras', 10, 'danya@ubccs.ca', 'danya'),
+(796325, 'Diana', 'Jagodic', 10, 'diana@ubccs.ca', 'ok');
 
 -- --------------------------------------------------------
 
