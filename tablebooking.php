@@ -16,13 +16,6 @@ $username=$_SESSION['username'];
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript">
-            
-            function checkForReservationConflict() {
-
-            }
-
-        </script>
     </head>
     <body>
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
