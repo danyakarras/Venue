@@ -82,20 +82,25 @@
 <body>
 
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
-    
-    	
-            	<h2 class="">Sign In.</h2>
-            
-			<?php echo $errMSG; ?>
-            <input type="email" name="email" placeholder="Your Email" maxlength="40" />
-            <?php echo $emailError; ?>
-            <br><br>
-           <input type="password" name="pass" placeholder="Your Password" maxlength="15" />
-           <?php echo $passError; ?>
-			<br><br>
-           <button type="submit" name="login">Sign In</button>
-           <br><br>
-           <p>If you don't have an account set up, please sign up below.<br><br><a href="register.php">Sign Up</a></p>
+
+        <h2 class="">Sign In.</h2>
+        
+		<?php echo $errMSG; ?>
+
+        <input type="email" name="email" placeholder="Your Email" maxlength="40" />
+        <?php echo $emailError; ?>
+        <br><br>
+
+       <input type="password" name="pass" placeholder="Your Password" maxlength="15" />
+       <?php echo $passError; ?>
+		<br><br>
+
+       <button type="submit" name="login">Sign In</button>
+       <br><br>
+
+       <p>If you don't have an account set up, please sign up below.<br><br><a href="register.php">Sign Up</a></p>
+
+       <p><a href="manager_authentication.php">Manager</a></p>
           
     </form>
 
