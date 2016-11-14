@@ -16,11 +16,18 @@ $username=$_SESSION['username'];
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript">
+            
+            function checkForReservationConflict() {
+
+            }
+
+        </script>
     </head>
     <body>
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
         <?php 
-
+        $evid = $_GET['evid'];
         $branchID = $_GET['branchID'];
 
         $servername = "localhost";
@@ -36,7 +43,9 @@ $username=$_SESSION['username'];
         die("Connection falied: " . $conn->connect_error);
         } 
 
+
         $sql = "SELECT tableNum, type FROM `venuehastable` WHERE branchID = '$branchID'";
+        $sql2 = "SELECT date, start_time FROM `hostedevent` WHERE branchID = '$branchID' AND evid= '$evid'";
 
         $table_option = "";
         $result = $conn->query($sql);
@@ -50,7 +59,10 @@ $username=$_SESSION['username'];
         } else {
             echo "0 results";
         }
-
+        $result2 = $conn->query($sql2);
+        $row2 = $result2->fetch_assoc();
+        $date = $row2["date"];
+        $start_time = $row2["start_time"];
 
         $conn->close();
 
@@ -59,44 +71,27 @@ $username=$_SESSION['username'];
         
         <!-- dropdown of next 14 days, cannot reserve further in the future -->
         <?php
-        $day_option='';
-        for ($x = 0; $x <= 14; $x++) {
-            $timer='+'.$x.' day';
-            $dayafter=strtotime($timer);
-            $day_database_format= date("Y-m-d",$dayafter);
-            $day_user_format= date("F j, Y",$dayafter); 
-            $day_option.='<option value="'.$day_database_format.'">'.$day_user_format.'</option>';    
-        } 
+
 
         //dropdown of working hours
-        $time_option='';
-        $starttime= date("H:i:s", mktime(0, 0, 0));
-        for ($y = 9; $y < 24; $y++) {
-            $timer='+'.$y.' hour';
-            $timeafter=strtotime($timer, strtotime($starttime));
-            $time_database_format= date("H:i:s",$timeafter);
-            $time_user_format= date("h:i A",$timeafter); 
-            $time_option.='<option value="'.$time_database_format.'">'.$time_user_format.'</option>';
-        }
+        
 
         $number_of_guests = '';
         for($z = 1; $z < 11; $z++){
             $number_of_guests.='<option value="'.$z.'">'.$z.' guest(s)</option>';
         }
 
-        $date_picker='<select name="date">'.$day_option.'</select>';
-        $time_picker = '<select name="time">'.$time_option.'</select>';
         $table_picker='<select name="table">'.$table_option.'</select>';
         $guestsNum_picker='<select name="guests">'.$number_of_guests.'</select>';
 
         //append all the dropdowns
-        echo '<form action="#" method="post">'.$date_picker.$time_picker.$table_picker.$guestsNum_picker.'
+        echo '<form action="#" method="post">'.$table_picker.$guestsNum_picker.'
         <input type="submit" name="submit" value="Reserve" />
         </form>';
 
         if(isset($_POST['submit'])){
-        $selected_date = $_POST['date'];  // Storing Selected Value In Variable
-        $selected_time = $_POST['time'];
+        $selected_date = $date;  // Storing Selected Value In Variable
+        $selected_time = $start_time;
         $selected_table = $_POST['table'];
         $selected_guests = $_POST['guests'];
         $selected_branchID = $branchID;
@@ -120,19 +115,6 @@ $username=$_SESSION['username'];
         $sql = "SELECT *  FROM `tablereservation` WHERE tableNum = '$selected_table' AND date = '$selected_date' AND time = '$selected_time' AND branchID = '$selected_branchID'";
 
         $sql2 = "SELECT size, cost, numOfTableType FROM `venuehastable` WHERE tableNum = '$selected_table' AND branchID = '$selected_branchID'";
-
-        $sql3 = "SELECT evid FROM `hostedevent` WHERE branchID = '$branchID' AND date = '$selected_date' AND start_time = '$selected_time' ";
-        $result3 = $conn->query($sql3);
-
-        if($result3->num_rows > 0) {
-            $row3 = $result3->fetch_assoc();
-            $evid=$row3["evid"];
-            echo 'Sorry, there is an event goin on at this time, you must buy a ticket if you wish to reserve a table. Alternatively, pick another time. <p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid='.$evid.'&branchID='.$branchID.'"><button>Buy my ticket!</button></a></p>';
-            $eventCheck = 0;
-        } else {
-            $eventCheck = 1;
-        }
-
         $result2 = $conn->query($sql2);
         if($result2->num_rows > 0) {
             while($row2 = $result2->fetch_assoc()) {
@@ -145,11 +127,9 @@ $username=$_SESSION['username'];
         //variables for insert into query
         $confirmationNum = rand(1000000, 9000000);
         
-       
         $totalNumOfGuests = 0;
         $result = $conn->query($sql);
-        if($eventCheck == 1) {
-            if ($result->num_rows > 0) {
+        if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 $numOfGuests=$row["numOfGuests"];
@@ -162,7 +142,7 @@ $username=$_SESSION['username'];
             else {
                 //if time/date conflict: make a reservation if there are free tables in the section on that date/time
                 //selectedTable has value tableNum, but in the sropdown the user picks table type
-                echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
+                echo "Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.";
                 //add INSERT INTO query
 
                 $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
@@ -173,14 +153,12 @@ $username=$_SESSION['username'];
 
         }else {
             //no time/date conflict so just make a reservation without checking for the number of spaces taken up
-            echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
+            echo "Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.";
             //add INSERT INTO query
             $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
             $conn->query($sqlInsertReservation);
    
-        } 
         }
-       
             
         $conn->close();
 

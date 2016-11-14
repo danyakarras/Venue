@@ -95,7 +95,7 @@
 			<br><br>
            <button type="submit" name="login">Sign In</button>
            <br><br>
-           <a href="register.php">Sign Up Here...</a>
+           <p>If you don't have an account set up, please sign up below.<br><br><a href="register.php">Sign Up</a></p>
           
     </form>
 

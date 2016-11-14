@@ -1,20 +1,49 @@
 <?php
+
+// code used from http://www.codingcage.com/2015/01/user-registration-and-login-script-using-php-mysql.html as reference
 	ob_start();
 	session_start();
-	if( isset($_SESSION['user'])!="" ){
+ 		$servername = "localhost";
+        $username = "root";
+        $password = NULL;
+        $databasename = 'Venue';
+
+        //connect
+        $conn = new mysqli($servername, $username, $password, $databasename);
+
+        //check connecting
+        if($conn->connect_error) {
+        die("Connection falied: " . $conn->connect_error);
+        } 
+
+	$firstnameError ='';
+	$lastnameError = '';
+	$emailError='';
+	$passError='';
+	$errMSG='';
+
+	// it will never let you open index(login) page if session is set
+	if ( isset($_SESSION['user'])!="" ) {
 		header("Location: home.php");
+		exit;
 	}
-	include_once 'dbconnect.php';
-
+	
 	$error = false;
+	
+	if( isset($_POST['login']) ) {	
+		
+		// prevent sql injections/ clear user invalid inputs
 
-	if ( isset($_POST['btn-signup']) ) {
-		
-		// clean user inputs to prevent sql injections
-		$name = trim($_POST['name']);
-		$name = strip_tags($name);
-		$name = htmlspecialchars($name);
-		
+		$firstname = trim($_POST['firstname']);
+		$firstname = strip_tags($firstname);
+		$firstname = htmlspecialchars($firstname);
+
+
+		$lastname = trim($_POST['lastname']);
+		$lastname = strip_tags($lastname);
+		$lastname = htmlspecialchars($lastname);
+
+
 		$email = trim($_POST['email']);
 		$email = strip_tags($email);
 		$email = htmlspecialchars($email);
@@ -22,151 +51,78 @@
 		$pass = trim($_POST['pass']);
 		$pass = strip_tags($pass);
 		$pass = htmlspecialchars($pass);
+		// prevent sql injections / clear user invalid inputs
 		
-		// basic name validation
-		if (empty($name)) {
+		if(empty($email)){
 			$error = true;
-			$nameError = "Please enter your full name.";
-		} else if (strlen($name) < 3) {
-			$error = true;
-			$nameError = "Name must have atleat 3 characters.";
-		} else if (!preg_match("/^[a-zA-Z ]+$/",$name)) {
-			$error = true;
-			$nameError = "Name must contain alphabets and space.";
-		}
-		
-		//basic email validation
-		if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
+			$emailError = "Please enter your email address.";
+		} else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
 			$error = true;
 			$emailError = "Please enter valid email address.";
-		} else {
-			// check email exist or not
-			$query = "SELECT userEmail FROM users WHERE userEmail='$email'";
-			$result = mysql_query($query);
-			$count = mysql_num_rows($result);
-			if($count!=0){
-				$error = true;
-				$emailError = "Provided Email is already in use.";
-			}
 		}
-		// password validation
-		if (empty($pass)){
+
+		if(empty($firstname)){
 			$error = true;
-			$passError = "Please enter password.";
-		} else if(strlen($pass) < 6) {
+			$firstnameError = "Please enter your first name.";
+		}
+
+	    if(empty($lastname)){
 			$error = true;
-			$passError = "Password must have atleast 6 characters.";
+			$lastnameError = "Please enter your last name.";
 		}
 		
-		// password encrypt using SHA256();
-		$password = hash('sha256', $pass);
+		if(empty($pass)){
+			$error = true;
+			$passError = "Please enter your password.";
+		}
+		$cid = rand(100000, 900000);
 		
-		// if there's no error, continue to signup
-		if( !$error ) {
+		// if there's no error, continue to login
+		if (!$error) {
 			
-			$query = "INSERT INTO users(userName,userEmail,userPass) VALUES('$name','$email','$password')";
-			$res = mysql_query($query);
-				
-			if ($res) {
-				$errTyp = "success";
-				$errMSG = "Successfully registered, you may login now";
-				unset($name);
-				unset($email);
-				unset($pass);
-			} else {
-				$errTyp = "danger";
-				$errMSG = "Something went wrong, try again later...";	
-			}	
-				
-		}
 		
+			$query = "INSERT INTO `customer` VALUES('$cid', '$firstname', '$lastname', NULL, '$email','$pass')";
+			$conn->query($query);
+
+			$_SESSION['user'] = $cid;
+			$_SESSION['username'] = $firstname;
+			header("Location: home.php");
+			exit;
+
+		}
 		
 	}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Coding Cage - Login & Registration System</title>
-<link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css"  />
-<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
 
-<div class="container">
-
-	<div id="login-form">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
     
-    	<div class="col-md-12">
-        
-        	<div class="form-group">
-            	<h2 class="">Sign Up.</h2>
-            </div>
-        
-        	<div class="form-group">
-            	<hr />
-            </div>
+    	
+            	<h2 class="">Sign In.</h2>
             
-            <?php
-			if ( isset($errMSG) ) {
-				
-				?>
-				<div class="form-group">
-            	<div class="alert alert-<?php echo ($errTyp=="success") ? "success" : $errTyp; ?>">
-				<span class="glyphicon glyphicon-info-sign"></span> <?php echo $errMSG; ?>
-                </div>
-            	</div>
-                <?php
-			}
-			?>
-            
-            <div class="form-group">
-            	<div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-            	<input type="text" name="name" class="form-control" placeholder="Enter Name" maxlength="50" value="<?php echo $name ?>" />
-                </div>
-                <span class="text-danger"><?php echo $nameError; ?></span>
-            </div>
-            
-            <div class="form-group">
-            	<div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-            	<input type="email" name="email" class="form-control" placeholder="Enter Your Email" maxlength="40" value="<?php echo $email ?>" />
-                </div>
-                <span class="text-danger"><?php echo $emailError; ?></span>
-            </div>
-            
-            <div class="form-group">
-            	<div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            	<input type="password" name="pass" class="form-control" placeholder="Enter Password" maxlength="15" />
-                </div>
-                <span class="text-danger"><?php echo $passError; ?></span>
-            </div>
-            
-            <div class="form-group">
-            	<hr />
-            </div>
-            
-            <div class="form-group">
-            	<button type="submit" class="btn btn-block btn-primary" name="btn-signup">Sign Up</button>
-            </div>
-            
-            <div class="form-group">
-            	<hr />
-            </div>
-            
-            <div class="form-group">
-            	<a href="index.php">Sign in Here...</a>
-            </div>
-        
-        </div>
-   
+			<?php echo $errMSG; ?>
+			<input type="text" name="firstname" placeholder="Your First Name" maxlength="40" />
+            <?php echo $firstnameError; ?>
+            <br><br>
+            <input type="text" name="lastname" placeholder="Your Last Name" maxlength="40" />
+            <?php echo $lastnameError; ?>
+            <br><br>
+            <input type="email" name="email" placeholder="Your Email" maxlength="40" />
+            <?php echo $emailError; ?>
+            <br><br>
+           <input type="password" name="pass" placeholder="Your Password" maxlength="15" />
+           <?php echo $passError; ?>
+			<br><br>
+           <button type="submit" name="login">Sign In</button>
+           <br><br>
+           <p>If you don't have an account set up, please sign up below.<br><br><a href="register.php">Sign Up</a></p>
+          
     </form>
-    </div>	
 
-</div>
 
 </body>
 </html>

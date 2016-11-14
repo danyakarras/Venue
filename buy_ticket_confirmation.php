@@ -21,7 +21,7 @@ $username=$_SESSION['username'];
 
 
 $evid = $_GET['evid'];
-$branchID = $_GET['branchID']; //WILL THIS WORK?
+$branchID = $_GET['branchID']; 
 
 $servername = "localhost";
 $username = "root";
@@ -39,7 +39,6 @@ if($conn->connect_error) {
 //INSERT this new information into the database
 $ticketID = rand(1000, 9000);
 $sql = "INSERT INTO `buysticketsfor` VALUES ('$evid', '$ticketID', '$cid', '$branchID')"; // customer id MISSING
-
 $conn->query($sql);
 
 $conn->close();
@@ -51,6 +50,7 @@ $conn->close();
 <p>Success! You have a ticket for your desired event. Be sure to provide the security staff with your ticket id upon your arrival so they let you in!</p>
 
 <h3>Enjoy your event!</h3>
+<p><a href="http://localhost/304_project/tablebooking.php?evid=<?php echo $evid; ?>&branchID=<?php echo $branchID; ?>"><button>Book table for this event</button></a></p>
  
  </body>
 </html>
