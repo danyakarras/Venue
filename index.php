@@ -78,24 +78,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="cover.css">
 </head>
-<body>
-
+<body  background="bar.jpg">
+<br>
+<br>
+<br>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
 
-        <h2 class="">Sign In.</h2>
+        <h1 style = "font-size: 48px;">Log In to Venue</h1>
         
 		<?php echo $errMSG; ?>
 
         <input type="email" name="email" placeholder="Your Email" maxlength="40" />
         <?php echo $emailError; ?>
-        <br><br>
+        <br>
 
        <input type="password" name="pass" placeholder="Your Password" maxlength="15" />
        <?php echo $passError; ?>
 		<br><br>
 
-       <button type="submit" name="login">Sign In</button>
+       <button type="submit" name="login" class="button" style="vertical-align:middle"><span>Sign In </span></button>
+	   
        <br><br>
 
        <p>If you don't have an account set up, please sign up below.<br><br><a href="register.php">Sign Up</a></p>
