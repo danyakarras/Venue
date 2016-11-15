@@ -12,8 +12,7 @@
 <h1>Welcome to VENUE</h1>
 <h3>You are logged in as a Manager</h3>
 <br>
-<div >
-<h2>Add </h2>
+<div class="well well-lg">
 <h3>Add Event:</h3>
 
 <?php 
@@ -55,13 +54,13 @@
         	echo "0 results";
         }
 
-	$time_picker = "  Start time: <select name='time'>'.$time_option.'</select>";
-	$name = '  Event name: <input type="text" name="name">';
-	$date = ' Date: <input type="date" name="date">';
-	$venue = ' Venue name: <select name="branchID">'.$venue_options.'</select>';
-	$price = ' Price: <input type="number" name="price" step="0.01" min="0">';
+	$time_picker = "  <label for='stime'>Start Time:</label> <select name='stime' class='form-control'>'.$time_option.'</select>";
+	$name = '  <label for="name">Title:</label> <input type="text" class="form-control" name="name">';
+	$date = ' <label for="date">Date:</label> <input type="date" name="date" class="form-control">';
+	$venue = ' <label for="branchID">Venue:</label> <select name="branchID" class="form-control">'.$venue_options.'</select>';
+	$price = ' <label for="price">Price:</label> <input type="number" name="price" step="0.01" min="0" class="form-control">';
 
-	echo '<form action="#" method="post">'.$venue.$name.$date.$time_picker.$price.'
+	echo '<form action="#" class="form-inline" method="post">'.$venue.$name.$date.$time_picker.$price.'
 	        <input type="submit" name="submit1" value="Submit" />
 	        </form>';
 
@@ -82,7 +81,7 @@
 
 	    $evid = rand(100, 900);
 	    $selected_date = $_POST['date'];  // Storing Selected Value In Variable
-        $selected_time = $_POST['time'];
+        $selected_time = $_POST['stime'];
         $input_eventName = $_POST['name'];
         $selected_venue = $_POST['branchID']; //gets branchID of selected venue name
         $input_price = $_POST['price'];
@@ -332,7 +331,7 @@
 	}
 	?>
 	</div>
-	<div style="background-color:#ebe0e6">
+	<div class="well well-lg">
 	<h2>Remove </h2>
 	<h3>Remove Event:</h3>
 	<h3>Remove Entertainmant:</h3>
