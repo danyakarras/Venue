@@ -11,28 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
--- --------------------------------------------------------
-
---
--- Table structure for table `booking`
---
-
-CREATE TABLE `booking` (
-  `confirmation#` int(11) NOT NULL,
-  `tableNum` int(11) NOT NULL,
-  `branchID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `booking`
---
-
-INSERT INTO `booking` (`confirmation#`, `tableNum`, `branchID`) VALUES
-(67821390, 1, 69435),
-(67821391, 12, 69435),
-(67821392, 10, 89200),
-(67821393, 2, 89200),
-(67821394, 3, 89200);
 
 -- --------------------------------------------------------
 
@@ -52,13 +30,26 @@ CREATE TABLE `buysticketsfor` (
 --
 
 INSERT INTO `buysticketsfor` (`evid`, `ticketID`, `cid`, `branchID`) VALUES
+(123, '1295', 796325, 89200),
+(123, '1935', 172729, 89200),
 (456, '1y3n1', 796325, 69435),
+(123, '2382', 172729, 89200),
+(456, '2988', 172729, 69435),
 (345, '2r9s7', 763347, 16502),
+(345, '3675', 796325, 16502),
 (234, '3c4d6', 649588, 89200),
 (567, '3t9p8', 236011, 11447),
 (567, '4106', 796325, 11447),
+(123, '4300', 172729, 89200),
 (567, '4346', 796325, 11447),
+(123, '4937', 172729, 89200),
+(0, '5538', 172729, 0),
+(123, '5680', 172729, 89200),
 (123, '6603', 796325, 89200),
+(123, '6964', 796325, 89200),
+(123, '7647', 172729, 89200),
+(345, '7674', 796325, 16502),
+(123, '8386', 172729, 89200),
 (123, 'v6ty9', 643102, 89200);
 
 -- --------------------------------------------------------
@@ -82,6 +73,7 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`cid`, `f_name`, `l_name`, `hotness`, `email`, `password`) VALUES
 (90638, 'Rick', 'Martinez', NULL, 'rickym@yahoo.com', 'ricky'),
+(172729, 'Robby', 'Dennis', NULL, 'robby@gmail.com', 'robby'),
 (236011, 'Michael', 'Young', 9, 'hot@hotmail.ca', 'imhot'),
 (643102, 'Alena', 'Safina', 10, 'alena@ubccs.ca', 'alena'),
 (649588, 'Eric', 'Thompson', 7, 'nerd92@gmail.com', 'nerd'),
@@ -132,11 +124,13 @@ CREATE TABLE `hostedevent` (
 --
 
 INSERT INTO `hostedevent` (`evid`, `name`, `date`, `start_time`, `branchID`, `price`) VALUES
-(123, 'Zumba Night', '2016-11-11', '22:00:00', 89200, 20),
-(234, 'Country Fair', '2017-04-04', '18:00:00', 89200, 6.95),
+(123, 'Zumba Night', '2016-11-16', '22:00:00', 89200, 20),
+(143, 'Crazy Train', '2016-11-29', '19:00:00', 89200, 25.65),
 (345, 'Intergalactic Rave', '2016-12-31', '19:00:00', 16502, 34.99),
 (456, 'Seashore Gala', '2017-02-14', '17:00:00', 69435, 79.95),
-(567, 'Singles Fest', '2016-12-19', '20:00:00', 11447, 10);
+(567, 'Singles Fest', '2016-12-19', '20:00:00', 11447, 10),
+(775, 'Bones', '2016-11-25', '19:00:00', 61359, 54.95),
+(777, 'Superhero Night', '2016-11-30', '18:00:00', 69435, 24.99);
 
 -- --------------------------------------------------------
 
@@ -209,11 +203,17 @@ CREATE TABLE `tablereservation` (
 
 INSERT INTO `tablereservation` (`confirmationNum`, `tableNum`, `numOfGuests`, `branchID`, `cid`, `date`, `time`) VALUES
 (1032158, 10, 0, 69435, 90638, '2016-12-02', '10:00:00'),
+(1454834, 3, 1, 89200, 172729, '2016-11-16', '22:00:00'),
+(1722900, 10, 3, 89200, 172729, '2016-11-11', '22:00:00'),
 (2365222, 12, 10, 69435, 649588, '2016-11-15', '19:00:00'),
 (3486572, 12, 5, 69435, 796325, '2016-11-22', '11:00:00'),
 (3669852, 12, 116, 69435, 643102, '2016-11-15', '19:00:00'),
 (4008301, 1, 3, 69435, 796325, '2016-11-16', '09:00:00'),
 (4569873, 12, 0, 69435, 236011, '2016-12-01', '21:00:00'),
+(5756592, 2, 1, 89200, 172729, '2016-11-11', '22:00:00'),
+(6086914, 3, 3, 89200, 172729, '2016-11-11', '22:00:00'),
+(6099854, 3, 1, 89200, 172729, '2016-11-16', '22:00:00'),
+(6107422, 2, 1, 89200, 172729, '2016-11-11', '22:00:00'),
 (7362134, 10, 0, 89200, 643102, '2016-12-31', '22:00:00'),
 (9730154, 3, 0, 89200, 796325, '2016-12-24', '20:30:00');
 
@@ -288,18 +288,26 @@ INSERT INTO `venuehastable` (`tableNum`, `size`, `type`, `numOfTableType`, `cost
 (1, 2, 'intimate', 10, 30, 69435),
 (2, 8, 'bar', 5, 100, 89200),
 (3, 10, 'regular', 15, 50, 89200),
+(4, 8, 'booth', 10, 20, 69435),
+(5, 1, 'bar', 30, 5, 69435),
+(6, 4, 'regular', 20, 9.95, 61359),
+(7, 1, 'bar', 32, 6, 61359),
+(8, 2, 'intimate', 15, 14.95, 61359),
+(9, 5, 'booth', 9, 24.99, 61359),
 (10, 4, 'booth', 8, 20, 89200),
-(12, 6, 'patio', 20, 30, 69435);
+(11, 2, 'intimate', 17, 16.95, 89200),
+(12, 6, 'patio', 20, 30, 69435),
+(13, 6, 'patio', 8, 11.95, 61359),
+(14, 5, 'patio', 9, 7.99, 16502),
+(15, 4, 'regular', 20, 4.99, 16502),
+(16, 2, 'intimate', 8, 9.99, 16502),
+(17, 1, 'bar', 26, 3, 16502),
+(18, 4, 'regular', 20, 4.99, 11447),
+(19, 1, 'bar', 60, 2.95, 11447);
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `booking`
---
-ALTER TABLE `booking`
-  ADD PRIMARY KEY (`confirmation#`);
 
 --
 -- Indexes for table `buysticketsfor`
@@ -369,7 +377,7 @@ ALTER TABLE `entertainment`
 -- AUTO_INCREMENT for table `hostedevent`
 --
 ALTER TABLE `hostedevent`
-  MODIFY `evid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=568;
+  MODIFY `evid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=870;
 --
 -- AUTO_INCREMENT for table `venue`
 --
