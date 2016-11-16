@@ -1,3 +1,4 @@
+
 /*
  * Globals
  */
@@ -34,7 +35,7 @@ body {
 body {
   color: #fff;
   text-align: center;
-  text-shadow: 0 1px 4px rgba(0,0,0,.5);
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
 font-family: Century Gothic, sans-serif;
 }
 
@@ -230,3 +231,4 @@ input[type=password] {
     width: 700px;
   }
 }
+
