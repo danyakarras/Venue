@@ -68,7 +68,7 @@ if ($allEvents->num_rows > 0) {
 		$date = $rowEvents["date"];
 		$time = $rowEvents["start_time"];
 		$evid = $rowEvents["evid"];
-		$eventList .=  '<div class="event">'.$eventName.'<br>'.$time.'<br>'.$date.'<a href = "http://localhost/304_project/event_page.php?evid='.$evid.'"><button>Buy Tickets</button></a></div>';
+		$eventList .=  '<div class="event" style="padding: 20px; background-color: powderblue; border: 1px solid black;">'.$eventName.'<br>'.$time.'<br>'.$date.'<br><br><a href = "http://localhost/304_project/event_page.php?evid='.$evid.'"><button>Buy Tickets</button></a></div><br>';
     }
 } else {
     echo "0 results";
@@ -81,9 +81,9 @@ $conn->close();
 <h1><?php echo $venueName; ?></h1>
 <!-- this div is for the list of events for each specific venue -->
 <div style="overflow:hidden;">
-<div style="float:left;width:66%;background:grey;">  <?php echo $eventList; ?></div>
+<div style="float:left;width:60%;">  <?php echo $eventList; ?></div>
 
-<div style="float:right;width:33%;background:yellow;"><h4>Details</h4>
+<div style="float:right;width:35%;background:#aaccdd; padding-left: 20px;padding-bottom: 20px;"><h4>Details</h4>
 	<p>Address: <?php echo $venueAddress; ?></p>
 	<p>Cover charge: <?php echo $cover_charge;?></p>
 	<p>Capacity of venue: <?php echo $capacity;?></p>
