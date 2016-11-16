@@ -14,6 +14,14 @@ $username=$_SESSION['username'];
 ?><!--Venue Page-->
 <!DOCTYPE html>
 <html>
+<head>
+  <style>
+       #map {
+        height: 280px;
+        width: 40%;
+       }
+    </style>
+</head>
 <body>
 
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
@@ -92,6 +100,24 @@ $conn->close();
 </div>
 </div>
 
+    <h3>Location</h3>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var uluru = {lat: 49.2827, lng: -123.1207};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0t1gWCV_4zDtWvqLTRhd89N-v_44V2PQ&callback=initMap">
+    </script>
 
  
  </body>
