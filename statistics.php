@@ -11,18 +11,18 @@
 <h1>Statistics Page</h1>
 
 <div class="well well-lg">
-<h4>Customers who've been to every venue</h4>
+<h4>Customers who've been to every venue</h4> <!-- **THIS IS DIVISION** -->
 <button>Show list</button><br>
 <br>
 <h4>See how many tickets have sold for an event</h4>
  *put dropdown here*
 <button>Enter</button><br>
 <br>
-<h4>Which Event so far had the hottest customers (on average)</h4>
+<h4>Which Event so far had the hottest customers (on average)</h4> <!-- **THIS IS AGG. W/ GROUP BY** -->
 <button>Show Event name</button><br>
 <br>
-<h4>Which Event so far had the hottest customers (on average)</h4>
-<button>Show Event name</button><br>
+<h4>Some other query</h4>
+<button>Some other button</button><br>
 <br>
 
 </div>
