@@ -1,16 +1,7 @@
 --
 -- Database: `venue`
 --
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
 -- --------------------------------------------------------
 
 --
@@ -30,11 +21,30 @@ CREATE TABLE `buysticketsfor` (
 
 INSERT INTO `buysticketsfor` (`ticketID`, `branchID`, `evid`, `cid`) VALUES
 (1037, 16502, 345, 796325),
+(1254, 89200, 143, 796325),
 (1295, 89200, 123, 796325),
+(1640, 16502, 345, 763347),
+(1742, 16502, 345, 796325),
 (1935, 89200, 123, 172729),
+(2027, 11447, 777, 796325),
 (2382, 89200, 123, 172729),
+(2534, 69435, 775, 796325),
+(3273, 89200, 143, 796325),
+(3544, 69435, 775, 796325),
+(3728, 69435, 456, 763347),
+(3741, 89200, 123, 763347),
+(4325, 69435, 775, 763347),
+(4588, 11447, 777, 796325),
+(5063, 89200, 123, 763347),
+(5293, 11447, 777, 763347),
+(6094, 89200, 143, 796325),
+(6746, 11447, 777, 763347),
 (6862, 16502, 345, 796325),
+(7276, 69435, 775, 796325),
+(7405, 11447, 777, 763347),
 (7647, 89200, 123, 172729),
+(7655, 16502, 345, 906380),
+(7765, 69435, 456, 763347),
 (8386, 89200, 123, 172729),
 (8913, 16502, 345, 796325);
 
@@ -58,6 +68,7 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`cid`, `f_name`, `l_name`, `hotness`, `email`, `password`) VALUES
+(1, 'Test', 'Jones', 5, 'test@test.com', 'test'),
 (172729, 'Robby', 'Dennis', NULL, 'robby@gmail.com', 'robby'),
 (236011, 'Michael', 'Young', 9, 'hot@hotmail.ca', 'imhot'),
 (643102, 'Alena', 'Safina', 10, 'alena@ubccs.ca', 'alena'),
@@ -188,19 +199,13 @@ CREATE TABLE `tablereservation` (
 --
 
 INSERT INTO `tablereservation` (`confirmationNum`, `date`, `time`, `numOfGuests`, `cid`, `tableNum`, `branchID`) VALUES
-(1454834, '2016-11-16', '22:00:00', 1, 172729, 3, 89200),
-(1722900, '2016-11-11', '22:00:00', 3, 172729, 10, 89200),
-(2365222, '2016-11-15', '19:00:00', 10, 649588, 12, 69435),
-(3486572, '2016-11-22', '11:00:00', 5, 796325, 12, 69435),
-(3669852, '2016-11-15', '19:00:00', 116, 643102, 12, 69435),
-(4008301, '2016-11-16', '09:00:00', 3, 796325, 1, 69435),
-(4569873, '2016-12-01', '21:00:00', 0, 236011, 12, 69435),
-(5756592, '2016-11-11', '22:00:00', 1, 172729, 2, 89200),
-(6086914, '2016-11-11', '22:00:00', 3, 172729, 3, 89200),
-(6099854, '2016-11-16', '22:00:00', 1, 172729, 3, 89200),
-(6107422, '2016-11-11', '22:00:00', 1, 172729, 2, 89200),
-(7362134, '2016-12-31', '22:00:00', 0, 643102, 10, 89200),
-(9730154, '2016-12-24', '20:30:00', 0, 796325, 3, 89200);
+(2315673, '2016-12-03', '09:00:00', 1, 796325, 6, 61359),
+(3436523, '2016-11-20', '09:00:00', 1, 763347, 2, 89200),
+(5502686, '2016-11-16', '22:00:00', 1, 763347, 2, 89200),
+(6618897, '2017-02-14', '17:00:00', 1, 763347, 1, 69435),
+(6762207, '2016-12-04', '09:00:00', 1, 763347, 1, 69435),
+(6767334, '2016-11-29', '19:00:00', 4, 796325, 10, 89200),
+(8930909, '2016-11-25', '19:00:00', 9, 796325, 12, 69435);
 
 -- --------------------------------------------------------
 
@@ -246,9 +251,11 @@ CREATE TABLE `venue` (
 INSERT INTO `venue` (`branchID`, `name`, `address`, `capacity`, `cover_charge`) VALUES
 (11447, 'TGIF', '666 University Blvd', 100, 12),
 (16502, 'Fortune', '123 Davie St', 250, 10),
+(60042, 'Fuck Off', '101 Fuck off street', 200, 5),
 (61359, 'Stargazer', '310 Hamilton St', 200, 10),
 (69435, 'Blue Lagoon', '10 Water St', 500, 15),
-(89200, 'Thrills', '980 Commercial Drive', 300, 8);
+(89200, 'Thrills', '980 Commercial Drive', 300, 8),
+(97761, 'fucking venue', 'at address 4', 36, 5);
 
 -- --------------------------------------------------------
 
@@ -286,7 +293,10 @@ INSERT INTO `venuehastable` (`tableNum`, `size`, `numOfTableType`, `type`, `cost
 (14, 5, 9, 'patio', 7.99, 16502),
 (15, 4, 20, 'regular', 4.99, 16502),
 (16, 2, 8, 'intimate', 9.99, 16502),
-(17, 1, 26, 'bar', 3, 16502);
+(17, 1, 26, 'bar', 3, 16502),
+(18, 2, 12, 'intimate', 5.99, 11447),
+(19, 10, 30, 'regular', 6.99, 11447),
+(20, 5, 50, 'fuck you', 3, 60042);
 
 --
 -- Indexes for dumped tables
@@ -341,8 +351,8 @@ ALTER TABLE `staffemployed`
 ALTER TABLE `tablereservation`
   ADD PRIMARY KEY (`confirmationNum`),
   ADD KEY `tablereservation_ibfk_1` (`cid`),
-  ADD KEY `tablereservation_ibfk_2` (`tableNum`),
-  ADD KEY `tablereservation_ibfk_3` (`branchID`);
+  ADD KEY `tablereservation_ibfk_3` (`branchID`),
+  ADD KEY `tablereservation_ibfk_2` (`tableNum`);
 
 --
 -- Indexes for table `tableserved`
@@ -403,7 +413,7 @@ ALTER TABLE `staffemployed`
 --
 ALTER TABLE `tablereservation`
   ADD CONSTRAINT `tablereservation_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tablereservation_ibfk_2` FOREIGN KEY (`tableNum`) REFERENCES `tableserved` (`tableNum`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `tablereservation_ibfk_2` FOREIGN KEY (`tableNum`) REFERENCES `venuehastable` (`tableNum`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `tablereservation_ibfk_3` FOREIGN KEY (`branchID`) REFERENCES `venue` (`branchID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
