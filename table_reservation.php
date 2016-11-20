@@ -162,7 +162,7 @@ $username=$_SESSION['username'];
              }
 
             if(($totalNumOfGuests + $selected_guests) > ($numOfTableType*$size)){
-                echo "Sorry, this table has been reserved at this time/date. Please pick another time.";
+                echo "Sorry, we do not have any more space available in this section at this time. Please pick another time.";
             } 
             else {
                 //if time/date conflict: make a reservation if there are free tables in the section on that date/time
