@@ -138,7 +138,7 @@ $username=$_SESSION['username'];
                 echo "Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.";
                 //add INSERT INTO query
 
-                $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
+                $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
                 $conn->query($sqlInsertReservation);
                 
             }
@@ -148,7 +148,7 @@ $username=$_SESSION['username'];
             //no time/date conflict so just make a reservation without checking for the number of spaces taken up
             echo "Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.";
             //add INSERT INTO query
-            $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
+            $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
             $conn->query($sqlInsertReservation);
    
         }

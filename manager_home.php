@@ -206,10 +206,6 @@
 		$conn->close();
 	}
 	
-	
-	
-	
-	
 	?>
 	
 	<h3>Add Venue:</h3>

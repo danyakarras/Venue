@@ -162,7 +162,7 @@ $username=$_SESSION['username'];
              }
 
             if(($totalNumOfGuests + $selected_guests) > ($numOfTableType*$size)){
-                echo "Sorry, this table has been reserved at this time/date. Please pick another time/date.";
+                echo "Sorry, this table has been reserved at this time/date. Please pick another time.";
             } 
             else {
                 //if time/date conflict: make a reservation if there are free tables in the section on that date/time
@@ -170,7 +170,7 @@ $username=$_SESSION['username'];
                 echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
                 //add INSERT INTO query
 
-                $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
+                $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
                 $conn->query($sqlInsertReservation);
                 
             }
@@ -180,7 +180,7 @@ $username=$_SESSION['username'];
             //no time/date conflict so just make a reservation without checking for the number of spaces taken up
             echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
             //add INSERT INTO query
-            $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_table', '$selected_guests', '$selected_branchID', '$cid', '$selected_date', '$selected_time')";
+            $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
             $conn->query($sqlInsertReservation);
    
         } 
