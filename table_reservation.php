@@ -106,7 +106,7 @@ $username=$_SESSION['username'];
         $selected_guests = $_POST['guests'];
         $selected_branchID = $branchID;
 
-        //echo "You have selected :" .$selected_date.'*'.$selected_time.'*'.$selected_table.'*'.$selected_guests.'*'.$selected_branchID;  // Displaying Selected Value
+        echo "You have selected :" .$selected_date.'*'.$selected_time.'*'.$selected_table.'*'.$selected_guests.'*'.$selected_branchID;  // Displaying Selected Value
 
         $servername = "localhost";
         $username = "root";
@@ -122,7 +122,7 @@ $username=$_SESSION['username'];
         } 
 
 
-        $sql = "SELECT *  FROM `tablereservation` WHERE tableNum = '$selected_table' AND date = '$selected_date' AND time = '$selected_time' AND branchID = '$selected_branchID'";
+        $sql0 = "SELECT *  FROM `tablereservation` WHERE tableNum = '$selected_table' AND date = '$selected_date' AND time = '$selected_time' AND branchID = '$selected_branchID'";
 
         $sql2 = "SELECT size, cost, numOfTableType FROM `venuehastable` WHERE tableNum = '$selected_table' AND branchID = '$selected_branchID'";
 
@@ -152,7 +152,7 @@ $username=$_SESSION['username'];
         
        
         $totalNumOfGuests = 0;
-        $result = $conn->query($sql);
+        $result = $conn->query($sql0);
         if($eventCheck == 1) {
             if ($result->num_rows > 0) {
             // output data of each row
@@ -169,7 +169,6 @@ $username=$_SESSION['username'];
                 //selectedTable has value tableNum, but in the sropdown the user picks table type
                 echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
                 //add INSERT INTO query
-
                 $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
                 $conn->query($sqlInsertReservation);
                 
@@ -181,7 +180,8 @@ $username=$_SESSION['username'];
             echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
             //add INSERT INTO query
             $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
-            $conn->query($sqlInsertReservation);
+            $result = $conn->query($sqlInsertReservation);
+			var_dump($result);
    
         } 
         }
