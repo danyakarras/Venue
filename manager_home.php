@@ -12,6 +12,9 @@
 <h1>Welcome to VENUE</h1>
 <h3>You are logged in as a Manager</h3>
 <br>
+<a href="http://localhost/304_project/statistics.php"><button class="button" style="width:150px;height:50px;" id="StatsBtn" >See Company Statistics</button></a>
+<br>
+<br>
 <div class="well well-lg">
 <h3>Add Event:</h3>
 
@@ -205,6 +208,25 @@
 
 		$conn->close();
 	}
+	
+	
+	
+	
+	//Use this to create "objects" for each event
+	/*var persons = [
+    {firstname : "Malcom", lastname: "Reynolds"},
+    {firstname : "Kaylee", lastname: "Frye"},
+    {firstname : "Jayne", lastname: "Cobb"}
+];*/
+
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
