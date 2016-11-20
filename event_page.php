@@ -37,8 +37,10 @@ if($conn->connect_error) {
 	die("Connection falied: " . $conn->connect_error);
 }
 
+//BROKEN PREVIOUS QUERY
+// $sql = "SELECT ev.evid AS evid, en.enid AS enid, ev.name AS eventName, date, start_time, en.name AS enName, genre, v.name AS venueName, address, ev.price AS eventPrice, v.branchID AS branchID FROM `venue` v, `hostedevent` ev, `playsat` p, `entertainment` en, `buysticketsfor`t WHERE ev.branchID = p.branchID AND ev.evid = p.evid AND en.enid = p.enid AND v.branchID = p.branchID AND t.evid = ev.evid AND ev.evid = '$evid' AND p.evid = '$evid'  AND t.evid = '$evid'";
 
-$sql = "SELECT ev.evid AS evid, en.enid AS enid, ev.name AS eventName, date, start_time, en.name AS enName, genre, v.name AS venueName, address, ev.price AS eventPrice, v.branchID AS branchID FROM `venue` v, `hostedevent` ev, `playsat` p, `entertainment` en, `buysticketsfor`t WHERE ev.branchID = p.branchID AND ev.evid = p.evid AND en.enid = p.enid AND v.branchID = p.branchID AND t.evid = ev.evid AND ev.evid = '$evid' AND p.evid = '$evid'  AND t.evid = '$evid'";
+$sql = "SELECT ev.name AS eventName, date, start_time, price, en.name AS enName, genre, v.name AS venueName, address, v.branchID AS branchID FROM `entertainment` en, `hostedevent` ev, `playsat` p, `venue` v WHERE ev.branchID = p.branchID AND ev.evid = p.evid AND en.enid = p.enid AND v.branchID = ev.branchID AND p.evid ='$evid'";
 
 $result = $conn->query($sql);
 
@@ -46,11 +48,8 @@ if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
 
-        $evid = $row["evid"];
-        $enid = $row["enid"];
-
         $eventName = $row["eventName"];
-        $eventPrice = $row["eventPrice"];
+        $eventPrice = $row["price"];
         $date = $row["date"];
         $time = $row["start_time"];
 
