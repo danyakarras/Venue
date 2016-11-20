@@ -144,8 +144,22 @@
 	$conn = new mysqli($servername, $username, $password, $databasename);
 	//check connecting
 	if($conn->connect_error) {
-	die("Connection falied: " . $conn->connect_error);
+		die("Connection falied: " . $conn->connect_error);
 	}
+	
+	$sql = "SELECT name, branchID FROM `venue`";
+
+	$venuelist = array();
+	$venues = $conn->query($sql);
+        if($venues->num_rows > 0) {
+            while($row = $venues->fetch_assoc()) {
+                $venueName = $row["name"];
+                $branchID = $row["branchID"];
+                $venuelist[$branchID] = $venueName;
+            }
+        } else {
+        	echo "0 results";
+        }
 
 	$sql_ent = "SELECT name, enid FROM `entertainment`";
 
@@ -170,14 +184,14 @@
                 $evName = $row["name"];
                 $evID = $row["evid"];
 				$evBranchID = $row["branchID"];
-                $ev_options .='<option value="'.$evID.'">'.$evName.'</option>';
+                $ev_options .='<option value="'.$evID.','.$evBranchID.'">'.$evName.' at '.$venuelist[$evBranchID].'</option>';
             }
         } else {
         	echo "0 results";
         }
 		
-	$plays_ev = '   Select Entertainment to play at Event: <select name="plays_evid">'.$ev_options.'</select>';
-	$plays_en= '  <select name="plays_enid">'.$en_options.'</select>';
+	$plays_ev = '   Event: <select name="plays_evid">'.$ev_options.'</select>';
+	$plays_en= '  Select Entertainment to play at Event: <select name="plays_enid">'.$en_options.'</select>';
 	
 	echo '<form action="#" method="post">'.$plays_ev.$plays_en.'
 	        <input type="submit" name="submit11" value="Submit" />
@@ -198,40 +212,19 @@
 	    die("Connection falied: " . $conn->connect_error);
 	    }
 
-		$input_enName = $_POST['enname'];
-        $input_genre = $_POST['genre'];
-        $input_cost = $_POST['cost'];
+		$input_plays_en = $_POST['plays_enid'];
+        $selected_plays_ev = $_POST['plays_evid'];
+		$split_string = (explode(",",$selected_plays_ev));
+        $input_evid = $split_string[0];
+		$input_brID = $split_string[1];
 		
-		$sql2 = "INSERT INTO `entertainment` VALUES ('$enid','$input_enName','$input_genre','$input_cost')";
-		$conn->query($sql2);
+		$sql11 = "INSERT INTO `playsat` VALUES ('$input_evid','$input_plays_en','$input_brID')";
+		$conn->query($sql11);
 		//add echo saying it was successful if it inserted and error if it didn't
 
 		$conn->close();
 	}
 	
-
-	
-	
-	
-	//Use this to create "objects" for each event
-	/*var persons = [
-    {firstname : "Malcom", lastname: "Reynolds"},
-    {firstname : "Kaylee", lastname: "Frye"},
-    {firstname : "Jayne", lastname: "Cobb"}
-];*/
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	?>
 	
 	<h3>Add Venue:</h3>
@@ -345,10 +338,10 @@
 		
 		
 		$sql5 = "INSERT INTO `venuehastable` VALUES ('$input_tableNum','$input_tableSize','$input_numOfTType', '$input_tType','$input_tCost','$selected_tvenue')";
-		$conn->query($sql5);
+		/*$result = */$conn->query($sql5);
 		//add echo saying it was successful if it inserted and error if it didn't
 
-		/*$result = */$conn->close();
+		$conn->close();
 		//var_dump($result);
 	}
 	?>

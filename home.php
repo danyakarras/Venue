@@ -16,6 +16,7 @@ $username=$_SESSION['username'];
 <html>
 <body>
 
+
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a> | <a href="customer_account.php">Account info</a></div>
 <div style="text-align:left;"><a href="customer_reservations.php">View Reservations</a> | <a href="customer_tickets.php">View Tickets</a></div>
 
