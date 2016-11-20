@@ -318,7 +318,7 @@
         $selected_tvenue = $_POST['tbranchID']; //gets branchID of selected venue name
 		
 		
-		$sql5 = "INSERT INTO `venuehastable` VALUES ('$input_tableNum','$input_tableSize','$input_tType','$input_numOfTType','$input_tCost','$selected_tvenue')";
+		$sql5 = "INSERT INTO `venuehastable` VALUES ('$input_tableNum','$input_tableSize','$input_numOfTType', '$input_tType','$input_tCost','$selected_tvenue')";
 		$conn->query($sql5);
 		//add echo saying it was successful if it inserted and error if it didn't
 
