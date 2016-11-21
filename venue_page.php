@@ -96,14 +96,15 @@ $conn->close();
 
     <h3>Location</h3>
     <div id="map" style="width: 480px; height: 320px;"></div>
-	<input id="address" type="textbox" value=<?php echo $venueAddress?>>
+	<div id="address" style="display: none;">
+		<?php echo $venueAddress; ?>
+	</div>
     <script>
-	
   var geocoder;
   var map;
   function initialize() {
     geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var latlng = new google.maps.LatLng(49.279123, -123.123257);
     var mapOptions = {
       zoom: 15,
       center: latlng
@@ -111,7 +112,8 @@ $conn->close();
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	
 	
-	 var address = document.getElementById('address').value;   
+	 var addressdiv = document.getElementById('address'); 
+	 var address = addressdiv.textContent;	 
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == 'OK') {
         map.setCenter(results[0].geometry.location);
@@ -120,7 +122,8 @@ $conn->close();
             position: results[0].geometry.location
         });
       } else {
-        alert('Geocode was not successful for the following reason: ' + status);
+		  map.setCenter(latlng);
+        alert('Geocode was not successful for the following reason: ' + status + address);
       }
     });
 
