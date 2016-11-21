@@ -56,21 +56,26 @@ $conn->close();
 <body background="party.jpg">
 
 <ul>
-  <li><a class="active" href="#home">Home</a></li>
+  <li><a class="active" href="http://localhost/304_project/home.php">Home</a></li>
   <li><a href="http://localhost/304_project/events.php">Events</a></li>
-   <li class="dropdown">
-    <a href="#" class="dropbtn">Dropdown</a>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Venues</a>
     <div class="dropdown-content">
 	  <?php echo $venue_dropdowns; ?>
     </div>
   </li>
-  <li><a href="#contact">Venues</a></li>
-  <li><a href="#about">My Reservations</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Account</a>
+    <div class="dropdown-content">
+	  <a href="customer_reservations.php">My Reservations</a>
+	  <a href="customer_tickets.php">My Tickets</a>
+	  <a href="customer_account.php">Account Settings</a>
+    </div>
+  </li>
+  <li style="float:right">
+  Logged in as <?php echo $username; ?>  <a href="http://localhost/304_project/logout.php">Logout</a>
+  </li>
 </ul>
-
-
-<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a> | <a href="customer_account.php">Account info</a></div>
-<div style="text-align:left;"><a href="customer_reservations.php">View Reservations</a> | <a href="customer_tickets.php">View Tickets</a></div>
 
 
 <h1>Welcome to VENUE</h1>
