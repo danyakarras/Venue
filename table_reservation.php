@@ -146,11 +146,7 @@ $username=$_SESSION['username'];
                 $numOfTableType=$row2["numOfTableType"];
             }
         }
-
-        //variables for insert into query
-        $confirmationNum = rand(1000000, 9000000);
-        
-       
+   
         $totalNumOfGuests = 0;
         $result = $conn->query($sql0);
         if($eventCheck == 1) {
@@ -169,7 +165,7 @@ $username=$_SESSION['username'];
                 //selectedTable has value tableNum, but in the sropdown the user picks table type
                 echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
                 //add INSERT INTO query
-                $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
+                $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')"; //confirmationNum is auto-incremented
                 $conn->query($sqlInsertReservation);
                 
             }
@@ -179,7 +175,7 @@ $username=$_SESSION['username'];
             //no time/date conflict so just make a reservation without checking for the number of spaces taken up
             echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
             //add INSERT INTO query
-            $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('$confirmationNum', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')";
+            $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')"; //confirmationNum is auto-incremented
             $result = $conn->query($sqlInsertReservation);
 			var_dump($result);
    
