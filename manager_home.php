@@ -244,8 +244,24 @@
 	echo '<form action="#" method="post">'.$vname.$address.$capacity.$cover_charge.'
 	        <input type="submit" name="submit3" value="Submit" />
 	        </form>';
-		
+	
+
+
 	if(isset($_POST['submit3'])){
+
+		//add trigger to add tables for this new venue, assuming that every new venue has capacity for the 3 basic types of tables i.e. bar, intimate and regular
+		//need to autoincrement these values...? each time you insert you add one to thelast largest value
+		$tableNum_a = 21;
+		$tableNum_b = 22;
+		$tableNum_c = 23;
+		$brid = rand(10000, 99999);
+		//INSERT INTO `venuehastable` (`tableNum`, `size`, `numOfTableType`, `type`, `cost`, `branchID`) 
+		$addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
+								FOR EACH ROW BEGIN 
+								INSERT INTO `venuehastable` VALUES ($tableNum_a, 2, 10, 'intimate', 12.95, $brid), ($tableNum_b, 1, 30, 'bar', 3.95, $brid), ($tableNum_c, 6, 15, 'regular', 7.99, $brid);
+								END;";
+		
+
 
 		$servername = "localhost";
 	    $username = "root";
@@ -257,8 +273,9 @@
 	    if($conn->connect_error) {
 	    die("Connection falied: " . $conn->connect_error);
 	    }
+	    $conn->query($addTablesToVenue);
 
-	    $brid = rand(10000, 99999);
+	    
 		$input_vName = $_POST['vname'];
         $input_address = $_POST['address'];
         $input_capacity = $_POST['capacity'];
@@ -267,8 +284,6 @@
 		$sql3 = "INSERT INTO `venue` VALUES ('$brid','$input_vName','$input_address','$input_capacity','$input_cover')";
 		$conn->query($sql3);
 		//add echo saying it was successful if it inserted and error if it didn't
-		
-
 		$conn->close();
 	}
 	?>
