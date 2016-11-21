@@ -46,8 +46,8 @@ $conn->close();
  ?>
 
 <h2>See you there!</h2>
-<h3>Your ticket id is <?php echo $ticketID;?>.</h3>
-<p>Success! You have a ticket for your desired event. Be sure to provide the security staff with your ticket id upon your arrival so they let you in!</p>
+
+<p>Success! You have a ticket for your desired event. You will receieve your ticket via email. Please bring it with you to the event!</p>
 
 <h3>Enjoy your event!</h3>
 <p><a href="http://localhost/304_project/tablebooking.php?evid=<?php echo $evid; ?>&branchID=<?php echo $branchID; ?>"><button>Book table for this event</button></a></p>
