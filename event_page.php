@@ -8,16 +8,69 @@ else
 {
 $cid=$_SESSION['user'];
 $username=$_SESSION['username'];
+?>
+<?php
 
 
+$servername = "localhost";
+$usernameroot = "root";
+$password = NULL;
+$databasename = 'Venue';
 
-?><html>
+//connect
+$conn = new mysqli($servername, $usernameroot, $password, $databasename);
+
+//check connecting
+if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+}
+
+$sql = "SELECT name, branchID FROM `venue`";
+$result = $conn->query($sql);
+
+$names = array();
+$ids = array();
+$venue_dropdowns = "";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		$venue_dropdowns.= '<a href = "http://localhost/304_project/venue_page.php?branchID='.$row["branchID"].'"> '.$row["name"].' </a>';
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+ ?>
+
+
+<html>
 <head>
-
+<link rel="stylesheet" type="text/css" href="customer.css">
 </head>
-<body>
+<body background="party.jpg">
+<ul>
+  <li><a class="active" href="http://localhost/304_project/home.php">Home</a></li>
+  <li><a href="http://localhost/304_project/events.php">Events</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Venues</a>
+    <div class="dropdown-content">
+	  <?php echo $venue_dropdowns; ?>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Account</a>
+    <div class="dropdown-content">
+	  <a href="customer_reservations.php">My Reservations</a>
+	  <a href="customer_tickets.php">My Tickets</a>
+	  <a href="customer_account.php">Account Settings</a>
+    </div>
+  </li>
+  <li style="float:right">
+  Logged in as <?php echo $username; ?>  <a href="http://localhost/304_project/logout.php">Logout</a>
+  </li>
+</ul>
 
-<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
 
 <?php 
 
@@ -70,14 +123,14 @@ if ($result->num_rows > 0) {
 $conn->close();
 
  ?>
-
+<div  style="width:50%;background:rgba(20, 20, 20, 0.7); padding-left: 20px;padding-top: 20px;">
 <h2><?php echo $eventName;?> </h2>
 <h3>Be there at <?php echo $time;?> on <?php echo $date;?>.</h3>
 <p><?php echo $enName;?> of <?php echo $enGenre;?> genre will be playing.</p>
 <p>Individual tickets for this event are $<?php echo $eventPrice;?></p>
 <p>This event is at <?php echo $venueName;?> located at <?php echo $venueAddress;?></p>
-<p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid=<?php echo $evid; ?>&branchID=<?php echo $branchID; ?>"><button>Buy my ticket!</button></a></p>
-
+<p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid=<?php echo $evid; ?>&branchID=<?php echo $branchID; ?>"><button class="second_button" style="width:180px;"><span>Buy my ticket!</span></button></a></p>
+</div>
 </body>
 </html>
 <?php
