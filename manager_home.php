@@ -405,7 +405,6 @@ $username=$_SESSION['username'];
 		
 	$remove_ev = '   Remove Event: <select name="remove_evid">'.$ev_options2.'</select>';
 
-	
 	echo '<form action="#" method="post">'.$remove_ev.'
 	        <input type="submit" name="submit6" value="Submit" />
 	        </form>';
@@ -431,14 +430,12 @@ $username=$_SESSION['username'];
 		$remove_brID = $split_string[1];
 		
 		$sql6 = "DELETE FROM `hostedevent` WHERE evid = '$remove_evid' AND branchID = '$remove_brID'";
-		$result = $conn->query($sql6);
+		$conn->query($sql6);
 		//add echo saying it was successful if it inserted and error if it didn't
 
 		$conn->close();
-		var_dump($result);
 	}
 	?>
-	
 	
 	<h3>Remove Entertainmant:</h3>
 	<?php
@@ -499,8 +496,6 @@ $username=$_SESSION['username'];
 		$conn->close();
 	}
 	?>
-	
-	
 	
 	<h3>Remove Venue:</h3>
 	<?php
@@ -563,7 +558,70 @@ $username=$_SESSION['username'];
 	?>
 	
 	<h3>Remove Staff:</h3>
+	<?php
+	$servername = "localhost";
+	$username = "root";
+	$password = NULL;
+	$databasename = 'Venue';
+	//connect
+	$conn = new mysqli($servername, $username, $password, $databasename);
+	//check connecting
+	if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+	}
+
+	//wrtie and sql that willl select all branchID and names of venues, and then we put the name as venue and value="$branchID" where that's a variable $branchID = $row["branchID"];
+
+	$sql_staff = "SELECT sid, f_name, l_name FROM `staffemployed`";
+
+	$staff_options = '';
+	$staff = $conn->query($sql_staff);
+        if($staff->num_rows > 0) {
+            while($row = $staff->fetch_assoc()) {
+                $sid = $row["sid"];
+                $f_name = $row["f_name"];
+				$l_name = $row["l_name"];
+                $staff_options .='<option value="'.$sid.'">'.$f_name.' '.$l_name.'</option>';
+            }
+        } else {
+        	echo "0 results";
+        }
+
+		$del_staff= ' Select Staff to fire: <select name="del_staff">'.$staff_options.'</select>';
+
+		echo '<form action="#" method="post">'.$del_staff.'
+	        <input type="submit" name="submit9" value="Submit" />
+	        </form>';
+			
+		$conn->close();
+			
+	if(isset($_POST['submit9'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+	    die("Connection falied: " . $conn->connect_error);
+	    }
+
+        $remove_staff = $_POST['del_staff']; 
+		
+		$sql9 = "DELETE FROM `staffemployed` WHERE sid = '$remove_staff'";
+		$conn->query($sql9);
+		//add echo saying it was successful if it inserted and error if it didn't
+
+		$conn->close();
+	}
+	?>
+	
 	<h3>Remove Table:</h3>
+	
+	
+	
 	</div>
 </body>
 </html>
