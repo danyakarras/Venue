@@ -224,16 +224,6 @@ INSERT INTO `venue` (`branchID`, `name`, `address`, `capacity`, `cover_charge`) 
 (124569, 'Blue Lagoon', '350 Water St, Vancouver, BC, Canada', 500, 15),
 (124570, 'Thrills', '2010 W 4th Ave Vancouver, BC, Canada', 300, 8);
 
---
--- Triggers `venue`
---
-DELIMITER $$
-CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue` FOR EACH ROW BEGIN 
-                INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, 99019), ('', 1, 30, 'bar', 3.95, 99019), ('', 6, 15, 'regular', 7.99, 99019);
-                END
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
