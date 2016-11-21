@@ -23,6 +23,7 @@ $username=$_SESSION['username'];
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
 <body>
+<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
 <h1>Statistics Page</h1>
 
 <div class="well well-lg">
