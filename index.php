@@ -38,12 +38,18 @@
 		$pass = trim($_POST['pass']);
 		$pass = strip_tags($pass);
 		$pass = htmlspecialchars($pass);
-		// prevent sql injections / clear user invalid inputs
-		
+
+		if( intval($email)!= 0 ){
+			$branch=1;
+		}
+		else{
+			$branch=0;
+		}
+	
 		if(empty($email)){
 			$error = true;
 			$emailError = "Please enter your email address.";
-		} else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
+		} else if ( (!filter_var($email,FILTER_VALIDATE_EMAIL)) && ($branch==0) ) {
 			$error = true;
 			$emailError = "Please enter valid email address.";
 		}
@@ -56,7 +62,6 @@
 		// if there's no error, continue to login
 		if (!$error) {
 			
-		
 			$sql="SELECT cid, f_name, password FROM `customer` WHERE email='$email'";
 
 			$result = $conn->query($sql);
@@ -67,13 +72,32 @@
 				$_SESSION['user'] = $row['cid'];
 				$_SESSION['username'] = $row['f_name'];
 				header("Location: home.php");
-			} else {
-				$errMSG = "Incorrect Credentials, Try again...<br>";
+				exit();
+			} 
+			else {
+				//code for manager authentication
+				$sql2="SELECT sid, f_name, branchID FROM `staffemployed` WHERE sid='$email' AND manager = 1";
+
+				$result2 = $conn->query($sql2);
+				$row2=$result2->fetch_assoc();
+				$count2 = $result2->num_rows; // if uname/pass correct it returns must be 1 row
+			
+				if( $count2 == 1 && $row2['branchID']==$pass ) {
+					$_SESSION['user'] = $row2['sid'];
+					$_SESSION['username'] = $row2['f_name'];
+					header("Location: manager_home.php");
+					exit();
+				}
+				else {
+					$errMSG = "Incorrect Credentials, Try again...<br>";
+				}				
+
 			}
 				
 		}
 		
 	}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -90,7 +114,7 @@
         
 		<?php echo $errMSG; ?>
 
-        <input type="email" name="email" placeholder="Your Email" maxlength="40" />
+        <input type="text" name="email" placeholder="Your Email" maxlength="40" />
         <?php echo $emailError; ?>
         <br>
 
@@ -103,12 +127,10 @@
        <br><br>
 
        <p>If you don't have an account set up, please sign up below.<br><br><a href="register.php">Sign Up</a></p>
-
-       <p><a href="manager_authentication.php">Manager</a></p>
           
     </form>
 
-
 </body>
 </html>
+
 <?php ob_end_flush(); ?>

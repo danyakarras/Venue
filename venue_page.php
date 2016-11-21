@@ -73,7 +73,7 @@ if ($allEvents->num_rows > 0) {
 		$eventList .=  '<div class="event" style="padding: 20px; background-color: powderblue; border: 1px solid black;">'.$eventName.'<br>'.$time.'<br>'.$date.'<br><br><a href = "http://localhost/304_project/event_page.php?evid='.$evid.'"><button>Buy Tickets</button></a></div><br>';
     }
 } else {
-    echo "0 results";
+    echo "No events, yet! Sorry.";
 }
 
 $conn->close();
@@ -136,6 +136,7 @@ $conn->close();
 
  </body>
 </html>
+
  <?php
 }
 ?>

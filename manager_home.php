@@ -1,4 +1,19 @@
 
+<?php
+session_start();
+if ( isset($_SESSION['user'])=="" ) {
+    header("Location: index.php");
+    exit;
+  }
+else
+{
+$sid=$_SESSION['user'];
+$username=$_SESSION['username'];
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +24,7 @@
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
 <body>
+<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
 <h1>Welcome to VENUE</h1>
 <h3>You are logged in as a Manager</h3>
 <br>
@@ -254,18 +270,13 @@
 	if(isset($_POST['submit3'])){
 
 		//add trigger to add tables for this new venue, assuming that every new venue has capacity for the 3 basic types of tables i.e. bar, intimate and regular
-		//need to autoincrement these values...? each time you insert you add one to thelast largest value
-		$tableNum_a = 21;
-		$tableNum_b = 22;
-		$tableNum_c = 23;
 		$brid = rand(10000, 99999);
-		//INSERT INTO `venuehastable` (`tableNum`, `size`, `numOfTableType`, `type`, `cost`, `branchID`) 
+
+		//autoincrement is just empty quotes... as long as it's set in the db as autoincrmented value
 		$addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
 								FOR EACH ROW BEGIN 
-								INSERT INTO `venuehastable` VALUES ($tableNum_a, 2, 10, 'intimate', 12.95, $brid), ($tableNum_b, 1, 30, 'bar', 3.95, $brid), ($tableNum_c, 6, 15, 'regular', 7.99, $brid);
+								INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, $brid), ('', 1, 30, 'bar', 3.95, $brid), ('', 6, 15, 'regular', 7.99, $brid);
 								END;";
-		
-
 
 		$servername = "localhost";
 	    $username = "root";
@@ -502,3 +513,7 @@
 	</div>
 </body>
 </html>
+
+ <?php
+}
+?>

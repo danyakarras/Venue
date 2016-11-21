@@ -12,6 +12,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 -- --------------------------------------------------------
+--
+-- Database: `venue`
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `buysticketsfor`
@@ -30,6 +35,7 @@ CREATE TABLE `buysticketsfor` (
 
 INSERT INTO `buysticketsfor` (`ticketID`, `branchID`, `evid`, `cid`) VALUES
 (1037, 16502, 345, 796325),
+(1073, 69435, 456, 906380),
 (1254, 89200, 143, 796325),
 (1295, 89200, 123, 796325),
 (1640, 16502, 345, 763347),
@@ -77,7 +83,6 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`cid`, `f_name`, `l_name`, `hotness`, `email`, `password`) VALUES
-(1, 'Test', 'Jones', 5, 'test@test.com', 'test'),
 (172729, 'Robby', 'Dennis', NULL, 'robby@gmail.com', 'robby'),
 (236011, 'Michael', 'Young', 9, 'hot@hotmail.ca', 'imhot'),
 (643102, 'Alena', 'Safina', 10, 'alena@ubccs.ca', 'alena'),
@@ -171,21 +176,22 @@ CREATE TABLE `staffemployed` (
   `sid` int(11) NOT NULL,
   `f_name` varchar(20) NOT NULL,
   `l_name` varchar(20) NOT NULL,
-  `branchID` int(11) DEFAULT NULL
+  `branchID` int(11) DEFAULT NULL,
+  `manager` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `staffemployed`
 --
 
-INSERT INTO `staffemployed` (`sid`, `f_name`, `l_name`, `branchID`) VALUES
-(123456, 'Joanna', 'White', 69435),
-(234567, 'Jenny', 'Lam', 89200),
-(345678, 'Priya', 'Kapoor', 61359),
-(456789, 'Leonard', 'Roberts', 16502),
-(567890, 'Jackson', 'Jonson', 11447),
-(678901, 'Bob', 'Dibbles', 69435),
-(789012, 'Donald', 'Drumph', 89200);
+INSERT INTO `staffemployed` (`sid`, `f_name`, `l_name`, `branchID`, `manager`) VALUES
+(123456, 'Joanna', 'White', 69435, 1),
+(234567, 'Jenny', 'Lam', 89200, 1),
+(345678, 'Priya', 'Kapoor', 61359, 1),
+(456789, 'Leonard', 'Roberts', 16502, 1),
+(567890, 'Jackson', 'Jonson', 11447, 1),
+(678901, 'Bob', 'Dibbles', 69435, 0),
+(789012, 'Donald', 'Drumph', 89200, 0);
 
 -- --------------------------------------------------------
 
@@ -208,12 +214,14 @@ CREATE TABLE `tablereservation` (
 --
 
 INSERT INTO `tablereservation` (`confirmationNum`, `date`, `time`, `numOfGuests`, `cid`, `tableNum`, `branchID`) VALUES
+(1202148, '2017-02-14', '17:00:00', 1, 906380, 1, 69435),
 (2315673, '2016-12-03', '09:00:00', 1, 796325, 6, 61359),
 (3436523, '2016-11-20', '09:00:00', 1, 763347, 2, 89200),
 (5502686, '2016-11-16', '22:00:00', 1, 763347, 2, 89200),
 (6618897, '2017-02-14', '17:00:00', 1, 763347, 1, 69435),
 (6762207, '2016-12-04', '09:00:00', 1, 763347, 1, 69435),
 (6767334, '2016-11-29', '19:00:00', 4, 796325, 10, 89200),
+(8314698, '2016-12-02', '09:00:00', 1, 796325, 20, 60042),
 (8930909, '2016-11-25', '19:00:00', 9, 796325, 12, 69435);
 
 -- --------------------------------------------------------
@@ -248,7 +256,7 @@ INSERT INTO `tableserved` (`tableNum`, `branchID`, `sid`) VALUES
 CREATE TABLE `venue` (
   `branchID` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `address` varchar(20) NOT NULL,
+  `address` varchar(64) NOT NULL,
   `capacity` int(11) DEFAULT NULL,
   `cover_charge` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -260,10 +268,22 @@ CREATE TABLE `venue` (
 INSERT INTO `venue` (`branchID`, `name`, `address`, `capacity`, `cover_charge`) VALUES
 (11447, 'TGIF', '6371 Crescent Rd, Vancouver, BC, Canada', 100, 12),
 (16502, 'Fortune', '1022 Davie St, Vancouver, BC, Canada', 250, 10),
-(60042, 'Fuck Off', '750 Pacific Blvd Vancouver, BC, Canada', 200, 5),
+(60042, 'Fuck Yeah', '750 Pacific Blvd Vancouver, BC, Canada', 200, 5),
 (61359, 'Stargazer', '881 Granville St, Vancouver, BC, Canada', 200, 10),
 (69435, 'Blue Lagoon', '350 Water St, Vancouver, BC, Canada', 500, 15),
-(89200, 'Thrills', '2010 W 4th Ave Vancouver, BC, Canada', 300, 8);
+(89200, 'Thrills', '2010 W 4th Ave Vancouver, BC, Canada', 300, 8),
+(99019, 'TEST', 'TEST', 7000, 70),
+(99620, 'TEST 2', 'TEST 2', 8000, 80);
+
+--
+-- Triggers `venue`
+--
+DELIMITER $$
+CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue` FOR EACH ROW BEGIN 
+                INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, 99019), ('', 1, 30, 'bar', 3.95, 99019), ('', 6, 15, 'regular', 7.99, 99019);
+                END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -304,7 +324,13 @@ INSERT INTO `venuehastable` (`tableNum`, `size`, `numOfTableType`, `type`, `cost
 (17, 1, 26, 'bar', 3, 16502),
 (18, 2, 12, 'intimate', 5.99, 11447),
 (19, 10, 30, 'regular', 6.99, 11447),
-(20, 5, 50, 'fuck you', 3, 60042);
+(20, 5, 50, 'regular', 3, 60042),
+(24, 2, 10, 'intimate', 12.95, 99019),
+(25, 1, 30, 'bar', 3.95, 99019),
+(26, 6, 15, 'regular', 7.99, 99019),
+(27, 2, 10, 'intimate', 12.95, 99019),
+(28, 1, 30, 'bar', 3.95, 99019),
+(29, 6, 15, 'regular', 7.99, 99019);
 
 --
 -- Indexes for dumped tables
@@ -385,6 +411,15 @@ ALTER TABLE `venuehastable`
   ADD KEY `venuehastable_ibfk_1` (`branchID`);
 
 --
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `venuehastable`
+--
+ALTER TABLE `venuehastable`
+  MODIFY `tableNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+--
 -- Constraints for dumped tables
 --
 
@@ -431,13 +466,6 @@ ALTER TABLE `tableserved`
   ADD CONSTRAINT `tableserved_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `venue` (`branchID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tableserved_ibfk_2` FOREIGN KEY (`sid`) REFERENCES `staffemployed` (`sid`) ON DELETE SET NULL ON UPDATE CASCADE;
 
---
--- Constraints for table `venuehastable`
---
--- ALTER TABLE `venuehastable`
---   ADD CONSTRAINT `venuehastable_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `venue` (`branchID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
