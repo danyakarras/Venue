@@ -98,7 +98,6 @@ $username=$_SESSION['username'];
 	    die("Connection falied: " . $conn->connect_error);
 	    }
 
-	    $evid = rand(100, 900);
 	    $selected_date = $_POST['date'];  // Storing Selected Value In Variable
         $selected_time = $_POST['stime'];
         $input_eventName = $_POST['name'];
@@ -106,7 +105,7 @@ $username=$_SESSION['username'];
         $input_price = $_POST['price'];
 		
 		
-		$sql = "INSERT INTO `hostedevent` VALUES ('$evid','$input_eventName','$selected_date','$selected_time','$selected_venue','$input_price')";
+		$sql = "INSERT INTO `hostedevent` VALUES ('','$input_eventName','$selected_date','$selected_time','$selected_venue','$input_price')"; // evid is auto-incremented
 		$conn->query($sql);
 		//add echo saying it was successful if it inserted and error if it didn't
 
@@ -137,12 +136,12 @@ $username=$_SESSION['username'];
 	    die("Connection falied: " . $conn->connect_error);
 	    }
 
-	    $enid = rand(100, 999);
+	    
 		$input_enName = $_POST['enname'];
         $input_genre = $_POST['genre'];
         $input_cost = $_POST['cost'];
 		
-		$sql2 = "INSERT INTO `entertainment` VALUES ('$enid','$input_enName','$input_genre','$input_cost')";
+		$sql2 = "INSERT INTO `entertainment` VALUES ('','$input_enName','$input_genre','$input_cost')"; //enid is auto-incremented
 		$conn->query($sql2);
 		//add echo saying it was successful if it inserted and error if it didn't
 
@@ -258,13 +257,13 @@ $username=$_SESSION['username'];
 	if(isset($_POST['submit3'])){
 
 		//add trigger to add tables for this new venue, assuming that every new venue has capacity for the 3 basic types of tables i.e. bar, intimate and regular
-		$brid = rand(10000, 99999);
+		
 
-		//autoincrement is just empty quotes... as long as it's set in the db as autoincrmented value
-		$addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
-								FOR EACH ROW BEGIN 
-								INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, $brid), ('', 1, 30, 'bar', 3.95, $brid), ('', 6, 15, 'regular', 7.99, $brid);
-								END;";
+		//now that its A_I how does it know it corresponds to the new branchID?
+		// $addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
+		// 						FOR EACH ROW BEGIN 
+		// 						INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, ''), ('', 1, 30, 'bar', 3.95, ''), ('', 6, 15, 'regular', 7.99, '');
+		// 						END;"; //tableNum, branchID is auto-incremented
 
 		$servername = "localhost";
 	    $username = "root";
@@ -276,7 +275,7 @@ $username=$_SESSION['username'];
 	    if($conn->connect_error) {
 	    die("Connection falied: " . $conn->connect_error);
 	    }
-	    $conn->query($addTablesToVenue);
+	    //$conn->query($addTablesToVenue); //FOR THE TRIGGER
 
 	    
 		$input_vName = $_POST['vname'];
@@ -284,7 +283,7 @@ $username=$_SESSION['username'];
         $input_capacity = $_POST['capacity'];
 		$input_cover = $_POST['cover'];
 		
-		$sql3 = "INSERT INTO `venue` VALUES ('$brid','$input_vName','$input_address','$input_capacity','$input_cover')";
+		$sql3 = "INSERT INTO `venue` VALUES ('','$input_vName','$input_address','$input_capacity','$input_cover')"; //branchID is auto-incremented
 		$conn->query($sql3);
 		//add echo saying it was successful if it inserted and error if it didn't
 		$conn->close();
@@ -314,15 +313,14 @@ $username=$_SESSION['username'];
 	    if($conn->connect_error) {
 			die("Connection falied: " . $conn->connect_error);
 	    }
-
-	    $sid = rand(100000, 999999);
+	    
         $input_fName = $_POST['fname'];
 		$input_lName = $_POST['lname'];
         $selected_venue = $_POST['branchID']; //gets branchID of selected venue name
 		$selected_yn = $_POST["manager_yn"];
 		
 		
-		$sql4 = "INSERT INTO `staffemployed` VALUES ('$sid','$input_fName','$input_lName','$selected_venue','$selected_yn')";
+		$sql4 = "INSERT INTO `staffemployed` VALUES ('','$input_fName','$input_lName','$selected_venue','$selected_yn')"; //sid is auto-incremented
 		$conn->query($sql4);
 		//add echo saying it was successful if it inserted and error if it didn't
 
