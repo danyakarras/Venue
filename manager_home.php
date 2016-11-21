@@ -240,18 +240,6 @@ $username=$_SESSION['username'];
 
 		$conn->close();
 	}
-	
-	
-	//Use this to create "objects" for each event
-	/*var persons = [
-    {firstname : "Malcom", lastname: "Reynolds"},
-    {firstname : "Kaylee", lastname: "Frye"},
-    {firstname : "Jayne", lastname: "Cobb"}
-];*/
-
-	
-
-
 	?>
 	
 	<h3>Add Venue:</h3>
@@ -308,8 +296,9 @@ $username=$_SESSION['username'];
 	$fname = '  First name: <input type="text" name="fname">';
 	$lname = '  Last name: <input type="text" name="lname">';
 	$venue = ' Venue name: <select name="branchID">'.$venue_options.'</select>';
+	$manager_yn = '  Manager? <select name="manager_yn"><option value=1>yes</option><option value=0>no</option></select>';
 
-	echo '<form action="#" method="post">'.$fname.$lname.$venue.'
+	echo '<form action="#" method="post">'.$fname.$lname.$venue.$manager_yn.'
 	        <input type="submit" name="submit4" value="Submit" />
 	        </form>';
 			
@@ -330,9 +319,10 @@ $username=$_SESSION['username'];
         $input_fName = $_POST['fname'];
 		$input_lName = $_POST['lname'];
         $selected_venue = $_POST['branchID']; //gets branchID of selected venue name
+		$selected_yn = $_POST["manager_yn"];
 		
 		
-		$sql4 = "INSERT INTO `staffemployed` VALUES ('$sid','$input_fName','$input_lName','$selected_venue')";
+		$sql4 = "INSERT INTO `staffemployed` VALUES ('$sid','$input_fName','$input_lName','$selected_venue','$selected_yn')";
 		$conn->query($sql4);
 		//add echo saying it was successful if it inserted and error if it didn't
 
@@ -386,6 +376,70 @@ $username=$_SESSION['username'];
 	<div class="well well-lg">
 	<h2>Remove </h2>
 	<h3>Remove Event:</h3>
+	<?php
+	$servername = "localhost";
+	$username = "root";
+	$password = NULL;
+	$databasename = 'Venue';
+	//connect
+	$conn = new mysqli($servername, $username, $password, $databasename);
+	//check connecting
+	if($conn->connect_error) {
+		die("Connection falied: " . $conn->connect_error);
+	}
+		
+	$sql_ev = "SELECT name, evid, branchID FROM `hostedevent`";
+
+	$ev_options2 = '';
+	$evs = $conn->query($sql_ev);
+        if($evs->num_rows > 0) {
+            while($row = $evs->fetch_assoc()) {
+                $evName = $row["name"];
+                $evID = $row["evid"];
+				$evBranchID = $row["branchID"];
+                $ev_options2 .='<option value="'.$evID.','.$evBranchID.'">'.$evName.' at '.$venuelist[$evBranchID].'</option>';
+            }
+        } else {
+        	echo "0 results";
+        }
+		
+	$remove_ev = '   Remove Event: <select name="remove_evid">'.$ev_options2.'</select>';
+
+	
+	echo '<form action="#" method="post">'.$remove_ev.'
+	        <input type="submit" name="submit6" value="Submit" />
+	        </form>';
+
+	$conn->close();
+	
+	if(isset($_POST['submit6'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+	    die("Connection falied: " . $conn->connect_error);
+	    }
+
+        $selected_remove_ev = $_POST['remove_evid'];
+		$split_string = (explode(",",$selected_remove_ev));
+        $remove_evid = $split_string[0];
+		$remove_brID = $split_string[1];
+		
+		$sql6 = "DELETE FROM `hostedevent` WHERE evid = '$remove_evid' AND branchID = '$remove_brID'";
+		$result = $conn->query($sql6);
+		//add echo saying it was successful if it inserted and error if it didn't
+
+		$conn->close();
+		var_dump($result);
+	}
+	?>
+	
+	
 	<h3>Remove Entertainmant:</h3>
 	<?php
 	$servername = "localhost";
