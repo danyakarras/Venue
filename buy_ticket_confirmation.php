@@ -37,8 +37,8 @@ if($conn->connect_error) {
 }
 
 //INSERT this new information into the database
-$ticketID = rand(1000, 9000);
-$sql = "INSERT INTO `buysticketsfor` VALUES ('$ticketID', '$branchID', '$evid', '$cid')"; // customer id MISSING
+
+$sql = "INSERT INTO `buysticketsfor` VALUES ('', '$branchID', '$evid', '$cid')"; // ticketID is autoincrement
 $conn->query($sql);
 
 $conn->close();

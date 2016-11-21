@@ -75,13 +75,12 @@
 			$error = true;
 			$passError = "Please enter your password.";
 		}
-		$cid = rand(100000, 900000);
 		
 		// if there's no error, continue to login
 		if (!$error) {
 			
 		
-			$query = "INSERT INTO `customer` VALUES('$cid', '$firstname', '$lastname', NULL, '$email','$pass')";
+			$query = "INSERT INTO `customer` VALUES('', '$firstname', '$lastname', NULL, '$email','$pass')"; //cid is auto-incremented
 			$conn->query($query);
 
 			$_SESSION['user'] = $cid;
