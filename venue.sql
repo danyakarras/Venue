@@ -258,13 +258,12 @@ CREATE TABLE `venue` (
 --
 
 INSERT INTO `venue` (`branchID`, `name`, `address`, `capacity`, `cover_charge`) VALUES
-(11447, 'TGIF', '666 University Blvd', 100, 12),
-(16502, 'Fortune', '123 Davie St', 250, 10),
-(60042, 'Fuck Off', '101 Fuck off street', 200, 5),
-(61359, 'Stargazer', '310 Hamilton St', 200, 10),
-(69435, 'Blue Lagoon', '10 Water St', 500, 15),
-(89200, 'Thrills', '980 Commercial Drive', 300, 8),
-(97761, 'fucking venue', 'at address 4', 36, 5);
+(11447, 'TGIF', '6371 Crescent Rd, Vancouver, BC, Canada', 100, 12),
+(16502, 'Fortune', '1022 Davie St, Vancouver, BC, Canada', 250, 10),
+(60042, 'Fuck Off', '750 Pacific Blvd Vancouver, BC, Canada', 200, 5),
+(61359, 'Stargazer', '881 Granville St, Vancouver, BC, Canada', 200, 10),
+(69435, 'Blue Lagoon', '350 Water St, Vancouver, BC, Canada', 500, 15),
+(89200, 'Thrills', '2010 W 4th Ave Vancouver, BC, Canada', 300, 8);
 
 -- --------------------------------------------------------
 
