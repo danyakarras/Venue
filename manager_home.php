@@ -108,9 +108,9 @@ $username=$_SESSION['username'];
 		$result;
 		//add echo saying it was successful if it inserted and error if it didn't
 		if ($result === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">New record created successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -150,9 +150,9 @@ $username=$_SESSION['username'];
 		$result2 = $conn->query($sql2);
 		$result2;
 		if ($result2 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">New record created successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql2 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql2 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -249,9 +249,9 @@ $username=$_SESSION['username'];
 		$result11 = $conn->query($sql11);
 		$result11;
 		if ($result11 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">New record created successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql11 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql11 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -275,12 +275,12 @@ $username=$_SESSION['username'];
 
 		//add trigger to add tables for this new venue, assuming that every new venue has capacity for the 3 basic types of tables i.e. bar, intimate and regular
 		
-
-		//now that its A_I how does it know it corresponds to the new branchID?
-		// $addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
-		// 						FOR EACH ROW BEGIN 
-		// 						INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, ''), ('', 1, 30, 'bar', 3.95, ''), ('', 6, 15, 'regular', 7.99, '');
-		// 						END;"; //tableNum, branchID is auto-incremented
+		$addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
+								FOR EACH ROW BEGIN 
+								INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, NEW.branchID);
+								INSERT INTO `venuehastable` VALUES ('', 1, 30, 'bar', 3.95, NEW.branchID);
+								INSERT INTO `venuehastable` VALUES ('', 6, 15, 'regular', 7.99, NEW.branchID);
+								END;"; //tableNum is auto-incremented
 
 		$servername = "localhost";
 	    $username = "root";
@@ -292,7 +292,7 @@ $username=$_SESSION['username'];
 	    if($conn->connect_error) {
 	    die("Connection falied: " . $conn->connect_error);
 	    }
-	    //$conn->query($addTablesToVenue); //FOR THE TRIGGER
+	    $conn->query($addTablesToVenue); //FOR THE TRIGGER
 
 	    
 		$input_vName = $_POST['vname'];
@@ -305,9 +305,9 @@ $username=$_SESSION['username'];
 		$result3 = $conn->query($sql3);
 		$result3;
 		if ($result3 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">New record created successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql3 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql3 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 		$conn->close();
 	}
@@ -348,9 +348,9 @@ $username=$_SESSION['username'];
 		$result4;
 		//add echo saying it was successful if it inserted and error if it didn't
 		if ($result4 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">New record created successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql4 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql4 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -396,9 +396,9 @@ $username=$_SESSION['username'];
 		$result5;
 		//add echo saying it was successful if it inserted and error if it didn't
 		if ($result5 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">New record created successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql5 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql5 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -470,9 +470,9 @@ $username=$_SESSION['username'];
 		$result6;
 		//add echo saying it was successful if it inserted and error if it didn't
 		if ($result6 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">Record removed successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record removed successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql6 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql6 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -535,9 +535,9 @@ $username=$_SESSION['username'];
 		$result7;
 		
 		if ($result7 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">Record removed successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record removed successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql7 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql7 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -600,9 +600,9 @@ $username=$_SESSION['username'];
 		$result8;
 		//add echo saying it was successful if it inserted and error if it didn't
 		if ($result8 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">Record removed successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record removed successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql8 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql8 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
@@ -736,9 +736,9 @@ $username=$_SESSION['username'];
 		$result12;
 		//add echo saying it was successful if it inserted and error if it didn't
 		if ($result12 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; padding:10px;">Record removed successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record removed successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: green; padding:10px;'>Error: ". $sql12 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql12 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
 		}
 
 		$conn->close();
