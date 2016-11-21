@@ -312,7 +312,7 @@ $username=$_SESSION['username'];
 	    $conn = new mysqli($servername, $username, $password, $databasename);
 	    //check connecting
 	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
+			die("Connection falied: " . $conn->connect_error);
 	    }
 
 	    $sid = rand(100000, 999999);
@@ -421,7 +421,7 @@ $username=$_SESSION['username'];
 	    $conn = new mysqli($servername, $username, $password, $databasename);
 	    //check connecting
 	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
+			die("Connection falied: " . $conn->connect_error);
 	    }
 
         $selected_remove_ev = $_POST['remove_evid'];
@@ -567,7 +567,7 @@ $username=$_SESSION['username'];
 	$conn = new mysqli($servername, $username, $password, $databasename);
 	//check connecting
 	if($conn->connect_error) {
-	die("Connection falied: " . $conn->connect_error);
+		die("Connection falied: " . $conn->connect_error);
 	}
 
 	//wrtie and sql that willl select all branchID and names of venues, and then we put the name as venue and value="$branchID" where that's a variable $branchID = $row["branchID"];
@@ -605,7 +605,7 @@ $username=$_SESSION['username'];
 	    $conn = new mysqli($servername, $username, $password, $databasename);
 	    //check connecting
 	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
+			die("Connection falied: " . $conn->connect_error);
 	    }
 
         $remove_staff = $_POST['del_staff']; 
@@ -619,10 +619,78 @@ $username=$_SESSION['username'];
 	?>
 	
 	<h3>Remove Table:</h3>
+	<?php
+	$tvenueremove = ' Select venue from which to remove table: <select name="tbranchIDremove">'.$venue_options.'</select>';
+	echo '<form action="#" method="post">'.$tvenueremove.'
+	        <input type="submit" name="submit10" value="Submit" />
+	        </form>';
+			
+	if(isset($_POST['submit10'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+			die("Connection falied: " . $conn->connect_error);
+		}
+		
+		$chosen_venue = $_POST['tbranchIDremove'];
+		
+		$sql_tables = "SELECT tableNum, type FROM `venuehastable` WHERE branchID = '$chosen_venue'";
+		
+		$table_options = '';
+		$tables = $conn->query($sql_tables);
+        if($tables->num_rows > 0) {
+            while($row = $tables->fetch_assoc()) {
+                $tableNum = $row["tableNum"];
+                $tableType = $row["type"];
+                $table_options .='<option value="'.$tableNum.'">'.$tableType.'</option>';
+            }
+        } else {
+        	echo "0 results";
+        }
+
+		$del_table= ' Select table type to remove: <select name="del_table">'.$table_options.'</select>';
+		
+		echo '<form action="#" method="post">'.$del_table.'
+	        <input type="submit" name="submit12" value="Submit" />
+	        </form>';
+			
+		$conn->close();
+	}
+		
+		if(isset($_POST['submit12'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+			die("Connection falied: " . $conn->connect_error);
+	    }
+
+        $remove_table = $_POST['del_table']; 
+		
+		$sql12 = "DELETE FROM `venuehastable` WHERE tableNum = '$remove_table'";
+		$conn->query($sql12);
+		//add echo saying it was successful if it inserted and error if it didn't
+
+		$conn->close();
+	}
 	
-	
-	
+	?>
+	<br>
+	<br>
 	</div>
+	<br>
+	<br>
 </body>
 </html>
 
