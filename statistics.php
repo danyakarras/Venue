@@ -1,3 +1,18 @@
+<?php
+session_start();
+if ( isset($_SESSION['user'])=="" ) {
+    header("Location: index.php");
+    exit;
+  }
+else
+{
+$sid=$_SESSION['user'];
+$username=$_SESSION['username'];
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,3 +44,7 @@
 
 </body>
 </html>
+
+ <?php
+}
+?>

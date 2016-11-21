@@ -106,7 +106,7 @@ $user=$_SESSION['username'];
 
 			$conn->query($query);
 		}
-<<<<<<< HEAD
+
 
 //TODO
 // maybe later if we really have time left over, we could populate their name and last name and email so they only change what they want to, we won't have their passowrd in there however - STARTED BELOW
@@ -129,14 +129,10 @@ $user=$_SESSION['username'];
 	// }
 
 
-	$conn->close(); 
-
-=======
-		
+	$conn->close(); 	
 	}
 //TODO
 // maybe later if we really have time left over, we could populate their name and last name and email so they only change what they want to, we won't have their passowrd in there however
->>>>>>> ec608e308f5e0db696e8b562e38a4320be138223
 
 ?>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
@@ -147,7 +143,7 @@ $user=$_SESSION['username'];
             <p>For the fields you wish to remain unchanged enter your current info.</p>
             <br>
 			<?php echo $errMSG; ?>
-<<<<<<< HEAD
+			
 			<input type="text" name="firstname" placeholder="Your first name" maxlength="40" />
             <?php echo $firstnameError; ?>
             <br><br>
@@ -155,15 +151,7 @@ $user=$_SESSION['username'];
             <?php echo $lastnameError; ?>
             <br><br>
             <input type="email" name="email" placeholder="Your email" maxlength="40" />
-=======
-			<input type="text" name="firstname" placeholder="Your First Name" maxlength="40" />
-            <?php echo $firstnameError; ?>
-            <br><br>
-            <input type="text" name="lastname" placeholder="Your Last Name" maxlength="40" />
-            <?php echo $lastnameError; ?>
-            <br><br>
-            <input type="email" name="email" placeholder="Your Email" maxlength="40" />
->>>>>>> ec608e308f5e0db696e8b562e38a4320be138223
+
             <?php echo $emailError; ?>
             <br><br>
            <input type="password" name="pass" placeholder="Your Password" maxlength="15" />
@@ -177,12 +165,9 @@ $user=$_SESSION['username'];
 
 </body>
 </html>
+
 <?php
 }
-
-<<<<<<< HEAD
 ob_end_flush();
-=======
-ob_end_flush()
->>>>>>> ec608e308f5e0db696e8b562e38a4320be138223
+
 ?>
