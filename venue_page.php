@@ -8,17 +8,71 @@ else
 {
 $cid=$_SESSION['user'];
 $username=$_SESSION['username'];
+?>
+<?php
 
 
+$servername = "localhost";
+$usernameroot = "root";
+$password = NULL;
+$databasename = 'Venue';
 
-?><!--Venue Page-->
+//connect
+$conn = new mysqli($servername, $usernameroot, $password, $databasename);
+
+//check connecting
+if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+}
+
+$sql = "SELECT name, branchID FROM `venue`";
+$result = $conn->query($sql);
+
+$names = array();
+$ids = array();
+$venue_dropdowns = "";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		$venue_dropdowns.= '<a href = "http://localhost/304_project/venue_page.php?branchID='.$row["branchID"].'"> '.$row["name"].' </a>';
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+ ?>
+
+
+<!--Venue Page-->
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="customer.css">
 </head>
-<body onload="initialize()">
+<body background="party.jpg" onload="initialize()">
 
-<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
+<ul>
+  <li><a class="active" href="http://localhost/304_project/home.php">Home</a></li>
+  <li><a href="http://localhost/304_project/events.php">Events</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Venues</a>
+    <div class="dropdown-content">
+	  <?php echo $venue_dropdowns; ?>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Account</a>
+    <div class="dropdown-content">
+	  <a href="customer_reservations.php">My Reservations</a>
+	  <a href="customer_tickets.php">My Tickets</a>
+	  <a href="customer_account.php">Account Settings</a>
+    </div>
+  </li>
+  <li style="float:right">
+  Logged in as <?php echo $username; ?>  <a href="http://localhost/304_project/logout.php">Logout</a>
+  </li>
+</ul>
 
 <!-- DO WE NEED TO DO THIS EVERY TIME WE MAKE A QUERY? -->
 <?php 
@@ -70,7 +124,7 @@ if ($allEvents->num_rows > 0) {
 		$date = $rowEvents["date"];
 		$time = $rowEvents["start_time"];
 		$evid = $rowEvents["evid"];
-		$eventList .=  '<div class="event" style="padding: 20px; background-color: powderblue; border: 1px solid black;">'.$eventName.'<br>'.$time.'<br>'.$date.'<br><br><a href = "http://localhost/304_project/event_page.php?evid='.$evid.'"><button>Buy Tickets</button></a></div><br>';
+		$eventList .=  '<div class="event" style="padding: 20px; background:rgba(20, 20, 20, 0.75);">'.$eventName.'<br>'.$time.'<br>'.$date.'<br><br><a href = "http://localhost/304_project/event_page.php?evid='.$evid.'"><button class="mini_button" style="vertical-align:middle">Buy Tickets</button></a></div><br>';
     }
 } else {
     echo "No events, yet! Sorry.";
@@ -80,22 +134,26 @@ $conn->close();
 
  ?>
 <!--  want to make two divs on the side, one which will have the address, cover charge and capacity of the venue and another that will have the "make a reservation button" -->
-<h1><?php echo $venueName; ?></h1>
+<h1 style="padding-left: 20px;"><?php echo $venueName; ?></h1>
 <!-- this div is for the list of events for each specific venue -->
 <div style="overflow:hidden;">
 <div style="float:left;width:60%;">  <?php echo $eventList; ?></div>
 
-<div style="float:right;width:35%;background:#aaccdd; padding-left: 20px;padding-bottom: 20px;"><h4>Details</h4>
+<div style="float:right;width:35%;background:rgba(20, 20, 20, 0.7); padding-left: 20px;padding-bottom: 20px;"><h4>Details</h4>
 	<p>Address: <?php echo $venueAddress; ?></p>
 	<p>Cover charge: <?php echo $cover_charge;?></p>
 	<p>Capacity of venue: <?php echo $capacity;?></p>
 
-<div><a href="http://localhost/304_project/table_reservation.php?branchID=<?php echo $branchID;?>"><button>Make a Reservation</button></a></div>
+<div><a href="http://localhost/304_project/table_reservation.php?branchID=<?php echo $branchID;?>"><button class="mini_button"style="width: 220px;">Make a Reservation</button></a></div>
+
+
+
+
 </div>
 </div>
 
-    <h3>Location</h3>
-    <div id="map" style="width: 480px; height: 320px;"></div>
+    <h3 style="padding-left: 20px;">Location</h3>
+    <div id="map" style="width: 480px; height: 320px; padding-left: 20px;"></div>
 	<div id="address" style="display: none;">
 		<?php echo $venueAddress; ?>
 	</div>
@@ -135,6 +193,8 @@ $conn->close();
     </script>
 
  </body>
+ <br>
+ <br>
 </html>
 
  <?php
