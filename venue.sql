@@ -248,7 +248,7 @@ INSERT INTO `tableserved` (`tableNum`, `branchID`, `sid`) VALUES
 CREATE TABLE `venue` (
   `branchID` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `address` varchar(20) NOT NULL,
+  `address` varchar(64) NOT NULL,
   `capacity` int(11) DEFAULT NULL,
   `cover_charge` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
