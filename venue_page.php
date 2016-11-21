@@ -106,7 +106,7 @@ $conn->close();
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(49.279123, -123.123257);
     var mapOptions = {
-      zoom: 15,
+      zoom: 14,
       center: latlng
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions);

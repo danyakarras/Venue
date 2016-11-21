@@ -17,7 +17,22 @@ $username=$_SESSION['username'];
 <head>
 <link rel="stylesheet" type="text/css" href="customer.css">
 </head>
-<body>
+<body background="party.jpg">
+
+<ul>
+  <li><a class="active" href="#home">Home</a></li>
+  <li><a href="http://localhost/304_project/events.php">Events</a></li>
+   <li class="dropdown">
+    <a href="#" class="dropbtn">Dropdown</a>
+    <div class="dropdown-content">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+  </li>
+  <li><a href="#contact">Venues</a></li>
+  <li><a href="#about">My Reservations</a></li>
+</ul>
 
 
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a> | <a href="customer_account.php">Account info</a></div>
@@ -26,8 +41,8 @@ $username=$_SESSION['username'];
 
 <h1>Welcome to VENUE</h1>
 <br>
-
-<a href="http://localhost/304_project/events.php"><button class="button" style="width:150px;height:50px;" id="EventsBtn" >Browse all Events</button></a>
+<div  >
+<a href="http://localhost/304_project/events.php"><button class="main_button" style="vertical-align:middle" id="EventsBtn" ><span>Browse All Events </span></button></a>
   <br>
   <br>
   
@@ -56,7 +71,7 @@ $venue_stringList = "";
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        $venue_stringList.= '<a href = "http://localhost/304_project/venue_page.php?branchID='.$row["branchID"].'"><button class="button" style="width:100px;height:30px;">'.$row["name"].'</button></a>';
+        $venue_stringList.= '<a href = "http://localhost/304_project/venue_page.php?branchID='.$row["branchID"].'"><button class="second_button" style="vertical-align:middle"><span>'.$row["name"].'</span></button></a>';
 
     }
 } else {
@@ -66,12 +81,14 @@ if ($result->num_rows > 0) {
 $conn->close();
 
  ?>
- 
+ <br>
+ <br>
+ <h3>Or pick a venue:</h3>
   <br>
   <?php echo $venue_stringList; ?>
   <!--The above just creates a buttons -->
 
-
+</div>
 </body>
 </html>
 
