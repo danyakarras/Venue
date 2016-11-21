@@ -434,8 +434,8 @@ ALTER TABLE `tableserved`
 --
 -- Constraints for table `venuehastable`
 --
-ALTER TABLE `venuehastable`
-  ADD CONSTRAINT `venuehastable_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `venue` (`branchID`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ALTER TABLE `venuehastable`
+--   ADD CONSTRAINT `venuehastable_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `venue` (`branchID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
