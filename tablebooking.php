@@ -127,12 +127,12 @@ $username=$_SESSION['username'];
              }
 
             if(($totalNumOfGuests + $selected_guests) > ($numOfTableType*$size)){
-                echo "Sorry, this table has been reserved at this time/date. Please pick another time/date.";
+                echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Sorry, we do not have any more space available in this section at this time. Please pick another time. <div><br>";
             } 
             else {
                 //if time/date conflict: make a reservation if there are free tables in the section on that date/time
                 //selectedTable has value tableNum, but in the sropdown the user picks table type
-                echo "Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.";
+                echo "<br><div style='border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;'>Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.</div>";
                 //add INSERT INTO query
 
                 $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')"; //confirmationNum is auto-incremented
@@ -143,7 +143,7 @@ $username=$_SESSION['username'];
 
         }else {
             //no time/date conflict so just make a reservation without checking for the number of spaces taken up
-            echo "Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.";
+            echo "<br><div style='border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;'>Reservation made for ".$date." at ".$start_time."! The cost of the table is $".$cost.". It will be added to your final bill.</div>";
             //add INSERT INTO query
             $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')"; //confirmationNum is auto-incremented
             $conn->query($sqlInsertReservation);

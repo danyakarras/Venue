@@ -25,7 +25,6 @@ $username=$_SESSION['username'];
 			var i;
 			for (i = 0; i < events.length; i++) {
 				if(events[i].checked) {
-
 					txt += events[i].value + " ";
 					showEvents(events[i].value);
 				}
@@ -52,7 +51,7 @@ $username=$_SESSION['username'];
 
 <body>
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
-<h1>Browse Events!</h1>
+<h1>Upcomming Events</h1>
 
 <?php 
 $servername = "localhost";

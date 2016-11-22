@@ -106,7 +106,7 @@ $username=$_SESSION['username'];
         $selected_guests = $_POST['guests'];
         $selected_branchID = $branchID;
 
-        echo "You have selected :" .$selected_date.'*'.$selected_time.'*'.$selected_table.'*'.$selected_guests.'*'.$selected_branchID;  // Displaying Selected Value
+        // echo "You have selected :" .$selected_date.'*'.$selected_time.'*'.$selected_table.'*'.$selected_guests.'*'.$selected_branchID;  // Displaying Selected Value
 
         $servername = "localhost";
         $username = "root";
@@ -132,11 +132,17 @@ $username=$_SESSION['username'];
         if($result3->num_rows > 0) {
             $row3 = $result3->fetch_assoc();
             $evid=$row3["evid"];
-            echo 'Sorry, there is an event goin on at this time, you must buy a ticket if you wish to reserve a table. Alternatively, pick another time. <p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid='.$evid.'&branchID='.$branchID.'"><button>Buy my ticket!</button></a></p>';
+            echo '<br><div style="border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;">Sorry, there is an event goin on at this time, you must buy a ticket if you wish to reserve a table. Alternatively, pick another time. <br><br><p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid='.$evid.'&branchID='.$branchID.'"><button>See event info</button></a></p></div>';
             $eventCheck = 0;
         } else {
             $eventCheck = 1;
         }
+
+        // if ($result3 === TRUE) {
+        //     echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
+        //     $successFeedback = true;
+        // } else {
+        //     echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql3 ."<br>". $conn->error."</div>";
 
         $result2 = $conn->query($sql2);
         if($result2->num_rows > 0) {
@@ -158,31 +164,28 @@ $username=$_SESSION['username'];
              }
 
             if(($totalNumOfGuests + $selected_guests) > ($numOfTableType*$size)){
-                echo "Sorry, we do not have any more space available in this section at this time. Please pick another time.";
+                echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Sorry, we do not have any more space available in this section at this time. Please pick another time. <div><br>";
             } 
             else {
                 //if time/date conflict: make a reservation if there are free tables in the section on that date/time
                 //selectedTable has value tableNum, but in the sropdown the user picks table type
-                echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
+                echo "<br><div style='border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;'>Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.</div>";
                 //add INSERT INTO query
                 $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')"; //confirmationNum is auto-incremented
                 $conn->query($sqlInsertReservation);
                 
             }
 
-
         }else {
             //no time/date conflict so just make a reservation without checking for the number of spaces taken up
-            echo "Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.";
+            echo "<br><div style='border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;'>Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.</div>";
             //add INSERT INTO query
             $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')"; //confirmationNum is auto-incremented
             $result = $conn->query($sqlInsertReservation);
-			var_dump($result);
    
         } 
         }
-       
-            
+         
         $conn->close();
 
 

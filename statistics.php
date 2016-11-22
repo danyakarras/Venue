@@ -9,8 +9,6 @@ else
 $sid=$_SESSION['user'];
 $username=$_SESSION['username'];
 
-
-
 ?>
 
 <!DOCTYPE html>
