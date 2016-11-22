@@ -36,23 +36,23 @@ echo '<form action="#" class="form-inline" method="post">'.$vips.'
 
 if(isset($_POST['submit2'])){
 
-		$servername = "localhost";
-	    $username = "root";
-	    $password = NULL;
-	    $databasename = 'Venue';
-	    //connect
-	    $conn = new mysqli($servername, $username, $password, $databasename);
-	    //check connecting
-	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
-	    }
+	$servername = "localhost";
+    $username = "root";
+    $password = NULL;
+    $databasename = 'Venue';
+    //connect
+    $conn = new mysqli($servername, $username, $password, $databasename);
+    //check connecting
+    if($conn->connect_error) {
+    die("Connection falied: " . $conn->connect_error);
+    }
 
 
-$sql2 = "SELECT c.f_name, c.l_name FROM `customer` c WHERE NOT EXISTS (SELECT * from `venue` v WHERE NOT EXISTS (SELECT t.branchID FROM buysticketsfor t WHERE t.branchID = v.branchID AND c.cid = t.cid))";
+	$sql2 = "SELECT c.f_name, c.l_name FROM `customer` c WHERE NOT EXISTS (SELECT * from `venue` v WHERE NOT EXISTS (SELECT t.branchID FROM buysticketsfor t WHERE t.branchID = v.branchID AND c.cid = t.cid))";
 
 
-$result2 = $conn->query($sql2);
-echo $conn->error;
+	$result2 = $conn->query($sql2);
+	echo $conn->error;
 
 		//add echo saying it was successful if it inserted and error if it didn't
 		
@@ -64,6 +64,10 @@ echo $conn->error;
 				$l_name = $row["l_name"];
 				$viplist .=  '<tr><td>'.$f_name.'</td><td>'.$l_name.'</td></tr>';
 			}
+		}
+
+		if ($result2->num_rows == 0) {
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No Vip's to display.</div>"; 
 		}
 
 		$conn->close();
@@ -94,19 +98,19 @@ echo '<form action="#" class="form-inline" method="post">'.$ticketssold.'
 
 if(isset($_POST['submit6'])){
 
-		$servername = "localhost";
-	    $username = "root";
-	    $password = NULL;
-	    $databasename = 'Venue';
-	    //connect
-	    $conn = new mysqli($servername, $username, $password, $databasename);
-	    //check connecting
-	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
-	    }
-		
-		
-		$sqlv = "SELECT name, branchID FROM `venue`";
+	$servername = "localhost";
+    $username = "root";
+    $password = NULL;
+    $databasename = 'Venue';
+    //connect
+    $conn = new mysqli($servername, $username, $password, $databasename);
+    //check connecting
+    if($conn->connect_error) {
+    die("Connection falied: " . $conn->connect_error);
+    }
+	
+	
+	$sqlv = "SELECT name, branchID FROM `venue`";
 
 	$venuelist = array();
 	$venues = $conn->query($sqlv);

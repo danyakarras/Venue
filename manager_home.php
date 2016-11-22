@@ -540,7 +540,7 @@ $username=$_SESSION['username'];
 		if ($result7 === TRUE) {
     		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record removed successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql7 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql7 ."<br>". $conn->error."</div>"; 
 		}
 
 		$conn->close();

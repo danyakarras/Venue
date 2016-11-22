@@ -89,8 +89,6 @@ $username=$_SESSION['username'];
         $selected_guests = $_POST['guests'];
         $selected_branchID = $branchID;
 
-        //echo "You have selected :" .$selected_date.'*'.$selected_time.'*'.$selected_table.'*'.$selected_guests.'*'.$selected_branchID;  // Displaying Selected Value
-
         $servername = "localhost";
         $username = "root";
         $password = NULL;
