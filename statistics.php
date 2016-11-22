@@ -86,6 +86,7 @@ echo $conn->error;
 <br>
 <h4>Average hotness of each event</h4> <!-- **THIS IS AGG. W/ GROUP BY** -->
 <?php
+
 $hotness = ' <label for="hotness">Show Event hotness table:</label>';
 
 echo '<form action="#" class="form-inline" method="post">'.$hotness.'
@@ -106,6 +107,36 @@ if(isset($_POST['submit1'])){
 	    die("Connection falied: " . $conn->connect_error);
 	    }
 		
+		
+		$sqlv = "SELECT name, branchID FROM `venue`";
+
+	$venuelist = array();
+	$venues = $conn->query($sqlv);
+        if($venues->num_rows > 0) {
+            while($row = $venues->fetch_assoc()) {
+                $venueName = $row["name"];
+                $branchID = $row["branchID"];
+                $venuelist[$branchID] = $venueName;
+            }
+        } else {
+        	echo "0 results";
+        }
+		
+	$sqle = "SELECT name, evid FROM `hostedevent`";
+	
+	$eventnamelist = array();
+	$events = $conn->query($sqle);
+        if($events->num_rows > 0) {
+            while($row = $events->fetch_assoc()) {
+                $eventName = $row["name"];
+                $evid = $row["evid"];
+                $eventnamelist[$evid] = $eventName;
+            }
+        } else {
+        	echo "0 results";
+        }
+
+		
 		$sql1 = "SELECT AVG(hotness),branchID,evid FROM customer c, buysticketsfor t WHERE c.cid = t.cid GROUP BY branchID, evid"; // evid is auto-incremented
 		$result = $conn->query($sql1);
 		//add echo saying it was successful if it inserted and error if it didn't
@@ -117,15 +148,14 @@ if(isset($_POST['submit1'])){
 				$avgHot=$row["AVG(hotness)"];
 				$branchID = $row["branchID"];
 				$evid = $row["evid"];
-				$tablelist .=  '<tr><td>'.$branchID.'</td><td>'.$evid.'</td><td>'.$avgHot.'</td></tr>';
+				$tablelist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$avgHot.'</td></tr>';
 			}
 		}
 
 		$conn->close();
 		
-	echo '	<table style="width:50%">
+	echo '<br>	<table style="width:30%">
 	<tr>
-    <th>Venue</th>
     <th>Event</th> 
     <th>avg hotness</th>
 	</tr>
@@ -162,6 +192,39 @@ if(isset($_POST['submit3'])){
 	    die("Connection falied: " . $conn->connect_error);
 	    }
 		
+		
+		$sqlv = "SELECT name, branchID FROM `venue`";
+
+	$venuelist = array();
+	$venues = $conn->query($sqlv);
+        if($venues->num_rows > 0) {
+            while($row = $venues->fetch_assoc()) {
+                $venueName = $row["name"];
+                $branchID = $row["branchID"];
+                $venuelist[$branchID] = $venueName;
+            }
+        } else {
+        	echo "0 results";
+        }
+		
+	$sqle = "SELECT name, evid FROM `hostedevent`";
+	
+	$eventnamelist = array();
+	$events = $conn->query($sqle);
+        if($events->num_rows > 0) {
+            while($row = $events->fetch_assoc()) {
+                $eventName = $row["name"];
+                $evid = $row["evid"];
+                $eventnamelist[$evid] = $eventName;
+            }
+        } else {
+        	echo "0 results";
+        }
+		
+		
+		
+		
+		
 		$sql3 = "SELECT MAX(avghot) AS maxhot,branchID,evid 
 FROM
 (SELECT AVG(hotness) AS avghot,branchID,evid 
@@ -190,10 +253,7 @@ FROM
 		
 		
 		$result = $conn->query($sql4);
-		echo $conn->error;
 		//add echo saying it was successful if it inserted and error if it didn't
-		
-		var_dump($result);
 		
 		$maxeventlist = "";
 		if ($result->num_rows > 0) {
@@ -202,15 +262,14 @@ FROM
 				$maxHot=$row["maxhot"];
 				$branchID = $row["branchID"];
 				$evid = $row["evid"];
-				$maxeventlist .=  '<tr><td>'.$branchID.'</td><td>'.$evid.'</td><td>'.$maxHot.'</td></tr>';
+				$maxeventlist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$maxHot.'</td></tr>';
 			}
 		}
 
 		$conn->close();
 		
-	echo '	<table style="width:50%">
+	echo '	<table style="width:30%">
 	<tr>
-    <th>Venue</th>
     <th>Event</th> 
     <th>max hotness</th>
 	</tr>
