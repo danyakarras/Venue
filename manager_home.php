@@ -549,20 +549,11 @@ $username=$_SESSION['username'];
 	
 	<h3>Remove Entertainment from Event</h3>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<?php
-	$evremoveen = ' Select event from which to remove entertainment: <select name="evidremoveen">'.$ev_options.'</select>';
-	echo '<form action="#" method="post">'.$evremoveen.'
+	$evremoveen = ' <label> Select event from which to remove entertainment: </label> <select name="evidremoveen" class="form-control">'.$ev_options.'</select>';
+	echo '<form action="#"  class="form-inline" method="post">'.$evremoveen.'
 	        <input type="submit" name="submit13" value="Submit" />
-	        </form>';
+	        </form><br>';
 			
 	if(isset($_POST['submit13'])){
 
@@ -598,9 +589,9 @@ $username=$_SESSION['username'];
         	echo "0 results";
         }
 
-		$del_ent= ' Select entertainment to remove: <select name="del_ent">'.$ent_options.'</select>';
+		$del_ent= ' <label> Select entertainment to remove: </label> <select name="del_ent" class="form-control" >'.$ent_options.'</select>';
 		
-		echo '<form action="#" method="post">'.$del_ent.'
+		echo '<form action="#" class="form-inline" method="post">'.$del_ent.'
 	        <input type="submit" name="submit14" value="Submit" />
 	        </form>';
 			
