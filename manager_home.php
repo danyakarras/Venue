@@ -120,11 +120,11 @@ $username=$_SESSION['username'];
 
 	<h3>Add Entertainmant:</h3>
 	<?php 
-	$enname = '  Entertainment name: <input type="text" name="enname">';
+	$enname = '  <label>Entertainment name:</label> <input type="text" class="form-control" name="enname">';
 	$genre = ' Genre: <input type="text" name="genre">';
 	$cost = ' Cost: <input type="number" name="cost" step="0.01" min="0">';
 
-	echo '<form action="#" method="post">'.$enname.$genre.$cost.'
+	echo '<form action="#" class="form-inline" method="post">'.$enname.$genre.$cost.'
 	        <input type="submit" name="submit2" value="Submit" />
 	        </form>';
 		
@@ -545,6 +545,112 @@ $username=$_SESSION['username'];
 		$conn->close();
 	}
 	?>
+	
+	<h3>Remove Entertainment from Event</h3>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<?php
+	$evremoveen = ' Select event from which to remove entertainment: <select name="evidremoveen">'.$ev_options.'</select>';
+	echo '<form action="#" method="post">'.$evremoveen.'
+	        <input type="submit" name="submit13" value="Submit" />
+	        </form>';
+			
+	if(isset($_POST['submit13'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+			die("Connection falied: " . $conn->connect_error);
+		}
+		
+		$chosen_event = $_POST['evidremoveen'];
+		$split_string2 = (explode(",",$chosen_event));
+		$chosen_evid = $split_string2[0];
+		$chosen_brid = $split_string2[1];
+		
+		$sql_ents = "SELECT e.enid AS en, name, p.branchID AS ebr, p.evid as eev FROM `playsat` p, `entertainment` e WHERE p.branchID = '$chosen_brid' AND p.evid = '$chosen_evid' AND e.enid = p.enid";
+		
+		$ent_options = '';
+		$ents = $conn->query($sql_ents);
+        if($ents->num_rows > 0) {
+            while($row = $ents->fetch_assoc()) {
+                $ent_en = $row["en"];
+				$ebr = $row["ebr"];
+				$eev = $row["eev"];
+                $ent_name = $row["name"];
+                $ent_options .='<option value="'.$ent_en.','.$ebr.','.$eev.'">'.$ent_name.'</option>';
+            }
+        } else {
+        	echo "0 results";
+        }
+
+		$del_ent= ' Select entertainment to remove: <select name="del_ent">'.$ent_options.'</select>';
+		
+		echo '<form action="#" method="post">'.$del_ent.'
+	        <input type="submit" name="submit14" value="Submit" />
+	        </form>';
+			
+		$conn->close();
+	}
+		
+		if(isset($_POST['submit14'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+			die("Connection falied: " . $conn->connect_error);
+	    }
+
+        $remove_ent = $_POST['del_ent']; 
+		$split_string3 = (explode(",",$remove_ent));
+		$chosen_ent = $split_string3[0];
+		$chosen_ebr = $split_string3[1];
+		$chosen_eev = $split_string3[2];
+		
+		$sql14 = "DELETE FROM `playsat` WHERE enid = '$chosen_ent' AND evid = '$chosen_eev' AND branchID = '$chosen_ebr'";
+		
+		$result14 = $conn->query($sql14);
+		$result14;
+		//add echo saying it was successful if it inserted and error if it didn't
+		if ($result14 === TRUE) {
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record removed successfully.</div>';
+		} else {
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql12 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+		}
+
+		$conn->close();
+	}
+	
+	?>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<h3>Remove Venue:</h3>
 	<?php
