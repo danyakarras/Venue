@@ -549,15 +549,6 @@ $username=$_SESSION['username'];
 	
 	<h3>Remove Entertainment from Event</h3>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<?php
 	$evremoveen = ' Select event from which to remove entertainment: <select name="evidremoveen">'.$ev_options.'</select>';
 	echo '<form action="#" method="post">'.$evremoveen.'
@@ -641,17 +632,6 @@ $username=$_SESSION['username'];
 	}
 	
 	?>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	<h3>Remove Venue:</h3>
 	<?php

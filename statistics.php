@@ -282,6 +282,103 @@ FROM
 
 <br>
 
+<h4>Event with Minimum hotness</h4>
+
+<?php
+$minhot = ' <label for="minhot">Show lamest event:</label>';
+
+echo '<form action="#" class="form-inline" method="post">'.$minhot.'
+	        <input type="submit" name="submit4" value="Submit" />
+	        </form>';
+
+
+if(isset($_POST['submit4'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+	    die("Connection falied: " . $conn->connect_error);
+	    }
+		
+		
+		$sqlv = "SELECT name, branchID FROM `venue`";
+
+	$venuelist = array();
+	$venues = $conn->query($sqlv);
+        if($venues->num_rows > 0) {
+            while($row = $venues->fetch_assoc()) {
+                $venueName = $row["name"];
+                $branchID = $row["branchID"];
+                $venuelist[$branchID] = $venueName;
+            }
+        } else {
+        	echo "0 results";
+        }
+		
+	$sqle = "SELECT name, evid FROM `hostedevent`";
+	
+	$eventnamelist = array();
+	$events = $conn->query($sqle);
+        if($events->num_rows > 0) {
+            while($row = $events->fetch_assoc()) {
+                $eventName = $row["name"];
+                $evid = $row["evid"];
+                $eventnamelist[$evid] = $eventName;
+            }
+        } else {
+        	echo "0 results";
+        }
+		
+		$sql5 = "SELECT MIN(avghot) AS minhot,branchID,evid 
+FROM
+(SELECT AVG(hotness) AS avghot,branchID,evid 
+ FROM `customer` c, `buysticketsfor` t 
+ WHERE c.cid = t.cid 
+ GROUP BY branchID, evid) 
+ AS T
+ WHERE avghot = 
+	(SELECT MIN(avghot)
+	FROM (SELECT AVG(hotness) AS avghot,branchID,evid 
+ FROM `customer` c, `buysticketsfor` t 
+ WHERE c.cid = t.cid 
+ GROUP BY branchID, evid) 
+ AS T)";
+		
+		$minresult = $conn->query($sql5);
+		//add echo saying it was successful if it inserted and error if it didn't
+		
+		$mineventlist = "";
+		if ($minresult->num_rows > 0) {
+			// output data of each row
+			while($row = $minresult->fetch_assoc()) {
+				$minHot=$row["minhot"];
+				$branchID = $row["branchID"];
+				$evid = $row["evid"];
+				$mineventlist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$minHot.'</td></tr>';
+			}
+		}
+
+		$conn->close();
+		
+	echo '	<table style="width:30%">
+	<tr>
+    <th>Event</th> 
+    <th>min hotness</th>
+	</tr>
+	'.$mineventlist.'
+	</table>';	
+		
+	}
+	?>
+
+
+<br>
+
 </div>
 
 </body>
