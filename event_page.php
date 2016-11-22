@@ -127,7 +127,7 @@ if($result->num_rows == 0) {
 <p>'.$enName.'of '.$enGenre.' genre will be playing.</p>
 <p>Individual tickets for this event are $'.$eventPrice.'</p>
 <p>This event is at '.$venueName.' located at '.$venueAddress.'</p>
-<p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid=<?php echo $evid; ?>&branchID=<?php echo $branchID; ?>"><button class="second_button" style="width:180px;"><span>Buy my ticket!</span></button></a></p>
+<p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid='.$evid.'&branchID='.$branchID.'"><button class="second_button" style="width:180px;"><span>Buy my ticket!</span></button></a></p>
 </div>';
 }
 

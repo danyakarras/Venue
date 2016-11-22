@@ -36,7 +36,6 @@ $username=$_SESSION['username'];
         die("Connection falied: " . $conn->connect_error);
         } 
 
-
         $sql = "SELECT tableNum, type FROM `venuehastable` WHERE branchID = '$branchID'";
         $sql2 = "SELECT date, start_time FROM `hostedevent` WHERE branchID = '$branchID' AND evid= '$evid'";
 
@@ -50,7 +49,7 @@ $username=$_SESSION['username'];
                 $table_option.='<option value="'.$tableNum.'">'.$type.'</option>'; 
             }
         } else {
-            echo "0 results";
+            echo "Error: ". $sql ."<br>". $conn->error."";
         }
         $result2 = $conn->query($sql2);
         $row2 = $result2->fetch_assoc();
