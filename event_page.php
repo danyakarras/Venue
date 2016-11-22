@@ -115,15 +115,13 @@ if ($result->num_rows > 0) {
         
     }
 } else {
-    echo "0 results";
+    echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No results</div>";
 }
 
-//I don't want it to be a table, just tell them all the info in paragraphs below
-
-$conn->close();
-
- ?>
-<div  style="width:50%;background:rgba(20, 20, 20, 0.7); padding-left: 20px;padding-top: 20px;">
+if($result->num_rows == 0) {
+  echo "Sorry this event seems to have an error - someone will fix it soon!";
+} else {
+  echo '<div  style="width:50%;background:rgba(20, 20, 20, 0.7); padding-left: 20px;padding-top: 20px;">
 <h2><?php echo $eventName;?> </h2>
 <h3>Be there at <?php echo $time;?> on <?php echo $date;?>.</h3>
 <p><?php echo $enName;?> of <?php echo $enGenre;?> genre will be playing.</p>
@@ -132,7 +130,12 @@ $conn->close();
 <p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid=<?php echo $evid; ?>&branchID=<?php echo $branchID; ?>"><button class="second_button" style="width:180px;"><span>Buy my ticket!</span></button></a></p>
 </div>
 </body>
-</html>
-<?php
+</html>';
+}
+
+//I don't want it to be a table, just tell them all the info in paragraphs below
+
+$conn->close();
+
 }
 ?>
