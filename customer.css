@@ -206,3 +206,10 @@ li.dropdown {
     display: block;
 }
 
+.select-dropdown {
+	margin-left: 20px;
+	background-color: #e6005c;
+	 font-size: 18px;
+	
+}
+
