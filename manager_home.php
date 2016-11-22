@@ -26,24 +26,9 @@ $username=$_SESSION['username'];
 <h1>Welcome to VENUE</h1>
 <h3>You are logged in as a Manager</h3>
 <br>
-<?php
-$successFeedback = false; //not sure if they should be boolean or?
-$error = false;
-$errorFeedback = '';
-?>
-
 <a href="http://localhost/304_project/statistics.php"><button class="button" style="width:150px;height:50px;" id="StatsBtn" >See Company Statistics</button></a>
 <br>
 <br>
-
-
-
-<div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;" value="<?php echo $successFeedback ?>" >New record created successfully.</div> <br>
-
-<div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;' value="<?php echo $error ?>"><?php echo $errorFeedback ?></div><br>
-
-
-
 
 <div class="well well-lg">
 <h3>Add Event:</h3>
@@ -156,7 +141,6 @@ $errorFeedback = '';
 	    die("Connection falied: " . $conn->connect_error);
 	    }
 
-	    
 		$input_enName = $_POST['enname'];
         $input_genre = $_POST['genre'];
         $input_cost = $_POST['cost'];
@@ -323,12 +307,9 @@ $errorFeedback = '';
 		$result3;
 		if ($result3 === TRUE) {
     		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
-    		$successFeedback = true;
+   
 		} else {
     		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql3 ."<br>". $conn->error."</div>";
-    		//maybe this will work?
-    		$error = true;
-    		$errorFeedback = 'Error: ". $sql3 ."<br>". $conn->error."';
 		}
 		$conn->close();
 	}
