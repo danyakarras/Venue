@@ -21,6 +21,7 @@ $username=$_SESSION['username'];
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
+
 <body>
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
 <h1 style="margin-left:20px;">Welcome to VENUE</h1>
@@ -103,16 +104,22 @@ $username=$_SESSION['username'];
         $selected_venue = $_POST['branchID']; //gets branchID of selected venue name
         $input_price = $_POST['price'];
 		
-		
-		$sql = "INSERT INTO `hostedevent` VALUES ('','$input_eventName','$selected_date','$selected_time','$selected_venue','$input_price')"; // evid is auto-incremented
-		$result = $conn->query($sql);
-		$result;
-		//add echo saying it was successful if it inserted and error if it didn't
-		if ($result === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
+		//must enter a date greater than today
+		if ($selected_date < date("Y-m-d")) {
+			echo '<br><div style="border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;">Please enter a valid date in the future.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+			$sql = "INSERT INTO `hostedevent` VALUES ('','$input_eventName','$selected_date','$selected_time','$selected_venue','$input_price')"; // evid is auto-incremented
+			$result = $conn->query($sql);
+			$result;
+			//add echo saying it was successful if it inserted and error if it didn't
+			if ($result === TRUE) {
+	    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
+			} else {
+	    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql ."<br>". $conn->error."</div>";
+			}
 		}
+		
+		
 
 		$conn->close();
 	}
@@ -363,14 +370,13 @@ $username=$_SESSION['username'];
 	
 	<h3>Add Table:</h3>
 	<?php 
-	$tableNum = '  <label>Table Number: </label> <input type="number" name="tnum" step="1" min="0" class="form-control" >';
 	$tableSize = ' <label>Table Size: </label> <input type="number" name="tsize" step="1" min="0" class="form-control" >';
-	$tType = ' <label> Table Type: </label><input type="text" name="ttype" class="form-control" ><br><br>';
-	$numOfTType = ' <label> Num of Table Type: </label> <input type="number" name="numttype" step="1" min="0" class="form-control" >';
+	$tType = ' <label> Table Type: </label><input type="text" name="ttype" class="form-control" >';
+	$numOfTType = ' <label> Num of Table Type: </label> <input type="number" name="numttype" step="1" min="0" class="form-control" ><br><br>';
 	$tableCost = ' <label>Table Cost: </label> <input type="number" name="tCost" step="0.01" min="0" class="form-control" >';
 	$tvenue = ' <label> Venue: </label> <select name="tbranchID" class="form-control" >'.$venue_options.'</select>';
 
-	echo '<form action="#" class="form-inline"  method="post">'.$tableNum.$tableSize.$tType.$numOfTType.$tableCost.$tvenue.'
+	echo '<form action="#" class="form-inline"  method="post">'.$tableSize.$tType.$numOfTType.$tableCost.$tvenue.'
 	        <input type="submit" name="submit5" value="Submit" />
 	        </form>';
 			
@@ -387,25 +393,24 @@ $username=$_SESSION['username'];
 	    die("Connection falied: " . $conn->connect_error);
 	    }
 
-	    $input_tableNum = $_POST['tnum'];
 		$input_tableSize = $_POST['tsize'];
         $input_tType = $_POST['ttype'];
 		$input_numOfTType = $_POST['numttype'];
 		$input_tCost = $_POST['tCost'];
         $selected_tvenue = $_POST['tbranchID']; //gets branchID of selected venue name
 		
-		$sql5 = "INSERT INTO `venuehastable` VALUES ('$input_tableNum','$input_tableSize','$input_numOfTType', '$input_tType','$input_tCost','$selected_tvenue')";
+		//tableNum autoincremented
+		$sql5 = "INSERT INTO `venuehastable` VALUES ('','$input_tableSize','$input_numOfTType', '$input_tType','$input_tCost','$selected_tvenue')";
 		$result5 = $conn->query($sql5);
 		$result5;
 		//add echo saying it was successful if it inserted and error if it didn't
 		if ($result5 === TRUE) {
     		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql5 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql5 ."<br>". $conn->error."</div>"; 
 		}
 
 		$conn->close();
-		//var_dump($result);
 	}
 	//=========== REMOVE STARTS ========================================================
 	?>
