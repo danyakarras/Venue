@@ -118,11 +118,13 @@ $username=$_SESSION['username'];
 	}
 	?>
 
+
 	<h3>Add Entertainmant:</h3>
 	<?php 
-	$enname = '  <label>Entertainment name:</label> <input type="text" class="form-control" name="enname">';
-	$genre = ' Genre: <input type="text" name="genre">';
-	$cost = ' Cost: <input type="number" name="cost" step="0.01" min="0">';
+
+	$enname = ' <label>Entertainment name:</label> <input type="text" class="form-control" name="enname">';
+	$genre = ' <label>Genre:</label> <input type="text" name="genre" class="form-control">';
+	$cost = ' <label>Cost:</label> <input type="number" name="cost" step="0.01" min="0" class="form-control">';
 
 	echo '<form action="#" class="form-inline" method="post">'.$enname.$genre.$cost.'
 	        <input type="submit" name="submit2" value="Submit" />
@@ -215,10 +217,10 @@ $username=$_SESSION['username'];
         	echo "0 results";
         }
 		
-	$plays_ev = '   Event: <select name="plays_evid">'.$ev_options.'</select>';
-	$plays_en= '  Select Entertainment to play at Event: <select name="plays_enid">'.$en_options.'</select>';
+	$plays_ev = '   <label>Event:</label> <select name="plays_evid" class="form-control">'.$ev_options.'</select>';
+	$plays_en= '  <label>Select Entertainment to play at Event:</label> <select name="plays_enid" class="form-control">'.$en_options.'</select>';
 	
-	echo '<form action="#" method="post">'.$plays_ev.$plays_en.'
+	echo '<form action="#" class="form-inline" method="post">'.$plays_ev.$plays_en.'
 	        <input type="submit" name="submit11" value="Submit" />
 	        </form>';
 
@@ -260,12 +262,12 @@ $username=$_SESSION['username'];
 	
 	<h3>Add Venue:</h3>
 	<?php 
-	$vname = ' Venue Name: <input type="text" name="vname">';
-	$address = ' Address: <input type="text" name="address">';
-	$capacity = ' Max. Capacity: <input type="number" name="capacity" step="1" min="0">';
-	$cover_charge = ' Cover charge: <input type="number" name="cover" step="0.01" min="0">';
+	$vname = ' <label>Venue Name:</label> <input type="text" name="vname" class="form-control">';
+	$address = ' <label>Address:</label> <input type="text" name="address" class="form-control">';
+	$capacity = ' <label>Max. Capacity:</label> <input type="number" name="capacity" step="1" min="0" class="form-control">';
+	$cover_charge = ' <label>Cover charge:</label> <input type="number" name="cover" step="0.01" min="0" class="form-control">';
 
-	echo '<form action="#" method="post">'.$vname.$address.$capacity.$cover_charge.'
+	echo '<form action="#" class="form-inline" method="post">'.$vname.$address.$capacity.$cover_charge.'
 	        <input type="submit" name="submit3" value="Submit" />
 	        </form>';
 	
@@ -317,12 +319,12 @@ $username=$_SESSION['username'];
 	
 	<h3>Add Staff:</h3>
 	<?php 
-	$fname = '  First name: <input type="text" name="fname">';
-	$lname = '  Last name: <input type="text" name="lname">';
-	$venue = ' Venue name: <select name="branchID">'.$venue_options.'</select>';
-	$manager_yn = '  Manager? <select name="manager_yn"><option value=1>yes</option><option value=0>no</option></select>';
+	$fname = ' <label> First name: </label> <input type="text" name="fname" class="form-control">';
+	$lname = ' <label> Last name:</label> <input type="text" name="lname" class="form-control">';
+	$venue = ' <label>Venue name:</label> <select name="branchID" class="form-control">'.$venue_options.'</select>';
+	$manager_yn = ' <label> Manager? </label><select name="manager_yn" class="form-control"><option value=1>yes</option><option value=0>no</option></select>';
 
-	echo '<form action="#" method="post">'.$fname.$lname.$venue.$manager_yn.'
+	echo '<form action="#"  class="form-inline"  method="post">'.$fname.$lname.$venue.$manager_yn.'
 	        <input type="submit" name="submit4" value="Submit" />
 	        </form>';
 			
@@ -361,14 +363,14 @@ $username=$_SESSION['username'];
 	
 	<h3>Add Table:</h3>
 	<?php 
-	$tableNum = '  Table Number: <input type="number" name="tnum" step="1" min="0">';
-	$tableSize = ' Table Size: <input type="number" name="tsize" step="1" min="0">';
-	$tType = '  Table Type: <input type="text" name="ttype">';
-	$numOfTType = ' Num of Table Type: <input type="number" name="numttype" step="1" min="0">';
-	$tableCost = ' Table Cost: <input type="number" name="tCost" step="0.01" min="0">';
-	$tvenue = ' Venue: <select name="tbranchID">'.$venue_options.'</select>';
+	$tableNum = '  <label>Table Number: </label> <input type="number" name="tnum" step="1" min="0" class="form-control" >';
+	$tableSize = ' <label>Table Size: </label> <input type="number" name="tsize" step="1" min="0" class="form-control" >';
+	$tType = ' <label> Table Type: </label><input type="text" name="ttype" class="form-control" >';
+	$numOfTType = ' <label> Num of Table Type: </label> <input type="number" name="numttype" step="1" min="0" class="form-control" ><br><br>';
+	$tableCost = ' <label>Table Cost: </label> <input type="number" name="tCost" step="0.01" min="0" class="form-control" >';
+	$tvenue = ' <label> Venue: </label> <select name="tbranchID" class="form-control" >'.$venue_options.'</select>';
 
-	echo '<form action="#" method="post">'.$tableNum.$tableSize.$tType.$numOfTType.$tableCost.$tvenue.'
+	echo '<form action="#" class="form-inline"  method="post">'.$tableNum.$tableSize.$tType.$numOfTType.$tableCost.$tvenue.'
 	        <input type="submit" name="submit5" value="Submit" />
 	        </form>';
 			
@@ -391,7 +393,6 @@ $username=$_SESSION['username'];
 		$input_numOfTType = $_POST['numttype'];
 		$input_tCost = $_POST['tCost'];
         $selected_tvenue = $_POST['tbranchID']; //gets branchID of selected venue name
-		
 		
 		$sql5 = "INSERT INTO `venuehastable` VALUES ('$input_tableNum','$input_tableSize','$input_numOfTType', '$input_tType','$input_tCost','$selected_tvenue')";
 		$result5 = $conn->query($sql5);
@@ -440,9 +441,9 @@ $username=$_SESSION['username'];
         	echo "0 results";
         }
 		
-	$remove_ev = '   Remove Event: <select name="remove_evid">'.$ev_options2.'</select>';
+	$remove_ev = '  <label> Remove Event: </label> <select name="remove_evid" class="form-control" >'.$ev_options2.'</select>';
 
-	echo '<form action="#" method="post">'.$remove_ev.'
+	echo '<form action="#" class="form-inline" method="post">'.$remove_ev.'
 	        <input type="submit" name="submit6" value="Submit" />
 	        </form>';
 
@@ -508,9 +509,9 @@ $username=$_SESSION['username'];
         	echo "0 results";
         }
 
-	$del_entertainment= ' Select Entertainment to delete: <select name="del_enid">'.$entertainment_options.'</select>';
+	$del_entertainment= ' <label> Select Entertainment to delete: </label> <select name="del_enid" class="form-control" >'.$entertainment_options.'</select>';
 
-	echo '<form action="#" method="post">'.$del_entertainment.'
+	echo '<form action="#" class="form-inline" method="post">'.$del_entertainment.'
 	        <input type="submit" name="submit7" value="Submit" />
 	        </form>';
 
@@ -679,9 +680,9 @@ $username=$_SESSION['username'];
         	echo "0 results";
         }
 
-	$venue = ' Select Venue to delete: <select name="del_branchID">'.$venue_options.'</select>';
+	$venue = ' <label> Select Venue to delete: </label> <select name="del_branchID" class="form-control">'.$venue_options.'</select>';
 
-	echo '<form action="#" method="post">'.$venue.'
+	echo '<form action="#" class="form-inline" method="post">'.$venue.'
 	        <input type="submit" name="submit8" value="Submit" />
 	        </form>';
 
@@ -747,9 +748,9 @@ $username=$_SESSION['username'];
         	echo "0 results";
         }
 
-		$del_staff= ' Select Staff to fire: <select name="del_staff">'.$staff_options.'</select>';
+		$del_staff= ' <label> Select Staff to fire: </label> <select name="del_staff" class="form-control">'.$staff_options.'</select>';
 
-		echo '<form action="#" method="post">'.$del_staff.'
+		echo '<form action="#" class="form-inline" method="post">'.$del_staff.'
 	        <input type="submit" name="submit9" value="Submit" />
 	        </form>';
 			
@@ -780,8 +781,8 @@ $username=$_SESSION['username'];
 	
 	<h3>Remove Table:</h3>
 	<?php
-	$tvenueremove = ' Select venue from which to remove table: <select name="tbranchIDremove">'.$venue_options.'</select>';
-	echo '<form action="#" method="post">'.$tvenueremove.'
+	$tvenueremove = ' <label> Select venue from which to remove table: </label> <select name="tbranchIDremove" class="form-control">'.$venue_options.'</select>';
+	echo '<form action="#" class="form-inline" method="post">'.$tvenueremove.'
 	        <input type="submit" name="submit10" value="Submit" />
 	        </form>';
 			
