@@ -913,6 +913,92 @@ $username=$_SESSION['username'];
 	?>
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	<h3>Update Customer hotness:</h3>
+	<?php 
+	
+	$servername = "localhost";
+	$username = "root";
+	$password = NULL;
+	$databasename = 'Venue';
+	//connect
+	$conn = new mysqli($servername, $username, $password, $databasename);
+	//check connecting
+	if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+	}
+
+	$sqlcus = "SELECT cid, f_name, l_name FROM `customer`";
+
+	$cus_options = '';
+	$customers = $conn->query($sqlcus);
+        if($customers->num_rows > 0) {
+            while($row = $customers->fetch_assoc()) {
+                $ccid = $row["cid"];
+				$cf_name = $row["f_name"];
+				$cl_name = $row["l_name"];
+                $cus_options .='<option value="'.$ccid.'">'.$cf_name.' '.$cl_name.'</option>';
+            }
+        } else {
+        	echo "0 results";
+        }
+
+	$hotness_opt = '';
+        for($z = 1; $z < 11; $z++){
+            $hotness_opt.='<option value="'.$z.'">'.$z.'</option>';
+        }
+		
+	$cname = ' <label for="cid">Customer:</label> <select name="cid" class="form-control">'.$cus_options.'</select>';
+	$hotness = ' <label>Hotness Level:</label> <select name="hotness" class="form-control">'.$hotness_opt.'</select>';
+
+	echo '<form action="#" class="form-inline" method="post">'.$cname.$hotness.'
+	        <input type="submit" name="submit16" value="Submit" />
+	        </form>';
+	
+
+	$conn->close();
+	if(isset($_POST['submit16'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+	    die("Connection falied: " . $conn->connect_error);
+	    }
+	    //$conn->query($addTablesToVenue); //FOR THE TRIGGER
+
+	    $input_cid = $_POST['cid'];
+		$input_hotness = $_POST['hotness'];
+      
+		$sql16 = "UPDATE `customer` SET hotness = '$input_hotness' WHERE cid = '$input_cid'";
+		//add echo saying it was successful if it inserted and error if it didn't
+		$result16 = $conn->query($sql16);
+		$result16;
+		if ($result16 === TRUE) {
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record modified successfully.</div>';
+   
+		} else {
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql16 ."<br>". $conn->error."</div>";
+		}
+		$conn->close();
+	}
+	?>
+	
+	
+	
+	
+	
 
 
 
