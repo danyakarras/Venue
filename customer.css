@@ -213,3 +213,28 @@ li.dropdown {
 	
 }
 
+
+/*
+ *  Forms
+ */
+ input[type=email], input[type=text] {
+    width: 20%;
+	font-size: 14px;
+    padding: 12px 20px;
+    margin: 8px 0;
+	margin-left: 30px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid red;
+}
+input[type=password] {
+    width: 20%;
+	font-size: 14px;
+    padding: 12px 20px;
+    margin: 8px 0;
+	margin-left: 30px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid red;
+}
+

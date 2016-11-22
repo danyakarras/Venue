@@ -10,14 +10,43 @@ $cid=$_SESSION['user'];
 $user=$_SESSION['username'];
 
 ?>
+<?php
+
+
+$servername = "localhost";
+$usernameroot = "root";
+$password = NULL;
+$databasename = 'Venue';
+
+//connect
+$conn = new mysqli($servername, $usernameroot, $password, $databasename);
+
+//check connecting
+if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+}
+
+$sql = "SELECT name, branchID FROM `venue`";
+$result = $conn->query($sql);
+
+$names = array();
+$ids = array();
+$venue_dropdowns = "";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		$venue_dropdowns.= '<a href = "http://localhost/304_project/venue_page.php?branchID='.$row["branchID"].'"> '.$row["name"].' </a>';
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"> 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="customer.css">
 
    <script>
    		function infoUpdated() {
@@ -27,7 +56,32 @@ $user=$_SESSION['username'];
    </script>
 </head>
 
-<body>
+<body background="party.jpg">
+<ul>
+  <li><a class="active" href="http://localhost/304_project/home.php">Home</a></li>
+  <li><a href="http://localhost/304_project/events.php">Events</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Venues</a>
+    <div class="dropdown-content">
+	  <?php echo $venue_dropdowns; ?>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Account</a>
+    <div class="dropdown-content">
+	  <a href="customer_reservations.php">My Reservations</a>
+	  <a href="customer_tickets.php">My Tickets</a>
+	  <a href="customer_account.php">Account Settings</a>
+    </div>
+  </li>
+  <li style="float:right">
+  Logged in as <?php echo $user; ?>  <a href="http://localhost/304_project/logout.php">Logout</a>
+  </li>
+</ul>
+
+
+
+
 <?php
 
 // code used from http://www.codingcage.com/2015/01/user-registration-and-login-script-using-php-mysql.html as reference
@@ -137,10 +191,12 @@ $user=$_SESSION['username'];
 ?>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
     	
-            <h2 class=""><?php echo $user ?>'s Account Information.</h2>
+            <h1 style="margin-left: 20px;" class=""><?php echo $user ?>'s Account Information.</h1>
+			<div style="padding: 20px; background:rgba(20, 20, 20, 0.75);">
             <p> Below you can change your name, email address (your username) and your password.<p>
 
             <p>For the fields you wish to remain unchanged enter your current info.</p>
+			</div>
             <br>
 			<?php echo $errMSG; ?>
 			
@@ -157,7 +213,7 @@ $user=$_SESSION['username'];
            <input type="password" name="pass" placeholder="Your Password" maxlength="15" />
            <?php echo $passError; ?>
 			<br><br>
-           <button type="submit" name="updateInfo" onclick="infoUpdated()">Save</button>
+           <button class="second_button" style="margin-left: 30px;" type="submit" name="updateInfo" onclick="infoUpdated()"><span>Save</span></button>
            <br><br>
           
     </form>

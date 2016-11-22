@@ -109,7 +109,7 @@ $conn->close();
         $conn->close();
 
         ?>
-        <h1 style="padding-left: 20px;">Reserve a Table</h1>
+        <h1 style="margin-left: 20px;">Reserve a Table</h1>
         
         <!-- dropdown of next 14 days, cannot reserve further in the future -->
         <?php
