@@ -75,16 +75,104 @@ echo $conn->error;
 	</tr>
 	'.$viplist.'
 	</table>';	
-		
-		
-		
 	}
-
-
 ?>
 
 <br>
-<h4>Average hotness of each event</h4> <!-- **THIS IS AGG. W/ GROUP BY** -->
+
+
+
+<h4>Number of tickets sold for each event</h4> 
+<?php
+
+$ticketssold = ' <label for="ticketssold">Show Tickets Sold table:</label>';
+
+echo '<form action="#" class="form-inline" method="post">'.$ticketssold.'
+	        <input type="submit" name="submit6" value="Submit" />
+	        </form>';
+
+
+if(isset($_POST['submit6'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+	    die("Connection falied: " . $conn->connect_error);
+	    }
+		
+		
+		$sqlv = "SELECT name, branchID FROM `venue`";
+
+	$venuelist = array();
+	$venues = $conn->query($sqlv);
+        if($venues->num_rows > 0) {
+            while($row = $venues->fetch_assoc()) {
+                $venueName = $row["name"];
+                $branchID = $row["branchID"];
+                $venuelist[$branchID] = $venueName;
+            }
+        } else {
+        	echo "0 results";
+        }
+		
+	$sqle = "SELECT name, evid FROM `hostedevent`";
+	
+	$eventnamelist = array();
+	$events = $conn->query($sqle);
+        if($events->num_rows > 0) {
+            while($row = $events->fetch_assoc()) {
+                $eventName = $row["name"];
+                $evid = $row["evid"];
+                $eventnamelist[$evid] = $eventName;
+            }
+        } else {
+        	echo "0 results";
+        }
+
+		
+		$sql8 = "SELECT COUNT(*) AS num,branchID,evid FROM customer c, buysticketsfor t WHERE c.cid = t.cid GROUP BY branchID, evid"; 
+		$resulttickets = $conn->query($sql8);
+		//add echo saying it was successful if it inserted and error if it didn't
+		
+		$ticketlist = "";
+		if ($resulttickets->num_rows > 0) {
+			// output data of each row
+			while($row = $resulttickets->fetch_assoc()) {
+				$sold=$row["num"];
+				$branchID = $row["branchID"];
+				$evid = $row["evid"];
+				$ticketlist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$sold.'</td></tr>';
+			}
+		}
+
+		$conn->close();
+		
+	echo '<br>	<table style="width:30%">
+	<tr>
+    <th>Event</th> 
+    <th>tickets sold</th>
+	</tr>
+	'.$ticketlist.'
+	</table>';		
+	}
+	?>
+
+<br>
+
+
+
+
+
+
+
+
+
+<h4>Average hotness of each event</h4> 
 <?php
 
 $hotness = ' <label for="hotness">Show Event hotness table:</label>';
@@ -160,13 +248,9 @@ if(isset($_POST['submit1'])){
     <th>avg hotness</th>
 	</tr>
 	'.$tablelist.'
-	</table>';	
-		
-		
-		
+	</table>';		
 	}
 	?>
-
 
 <br>
 <h4>Event with Max hotness</h4>
@@ -191,7 +275,6 @@ if(isset($_POST['submit3'])){
 	    if($conn->connect_error) {
 	    die("Connection falied: " . $conn->connect_error);
 	    }
-		
 		
 		$sqlv = "SELECT name, branchID FROM `venue`";
 
@@ -221,19 +304,6 @@ if(isset($_POST['submit3'])){
         	echo "0 results";
         }
 		
-		
-		
-		
-		
-		$sql3 = "SELECT MAX(avghot) AS maxhot,branchID,evid 
-FROM
-(SELECT AVG(hotness) AS avghot,branchID,evid 
- FROM `customer` c, `buysticketsfor` t 
- WHERE c.cid = t.cid 
- GROUP BY branchID, evid) 
- AS T;"; 
-		
-		
 		$sql4 = "SELECT MAX(avghot) AS maxhot,branchID,evid 
 FROM
 (SELECT AVG(hotness) AS avghot,branchID,evid 
@@ -248,9 +318,6 @@ FROM
  WHERE c.cid = t.cid 
  GROUP BY branchID, evid) 
  AS T)";
-
-		
-		
 		
 		$result = $conn->query($sql4);
 		//add echo saying it was successful if it inserted and error if it didn't
