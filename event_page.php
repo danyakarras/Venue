@@ -124,7 +124,7 @@ if($result->num_rows == 0) {
   echo '<div  style="width:50%;background:rgba(20, 20, 20, 0.7); padding-left: 20px;padding-top: 20px;">
 <h2>'.$eventName.'</h2>
 <h3>Be there at '.$time.' on '.$date.'.</h3>
-<p>'.$enName.'of '.$enGenre.' genre will be playing.</p>
+<p>'.$enName.' of '.$enGenre.' genre will be playing.</p>
 <p>Individual tickets for this event are $'.$eventPrice.'</p>
 <p>This event is at '.$venueName.' located at '.$venueAddress.'</p>
 <p><a href = "http://localhost/304_project/buy_ticket_confirmation.php?evid='.$evid.'&branchID='.$branchID.'"><button class="second_button" style="width:180px;"><span>Buy my ticket!</span></button></a></p>
