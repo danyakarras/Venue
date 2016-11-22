@@ -586,7 +586,7 @@ $username=$_SESSION['username'];
                 $ent_options .='<option value="'.$ent_en.','.$ebr.','.$eev.'">'.$ent_name.'</option>';
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: blue; background-color:#89C2F2; padding:10px;'>This event does not have entertainment.</div>";
         }
 
 		$del_ent= ' <label> Select entertainment to remove: </label> <select name="del_ent" class="form-control" >'.$ent_options.'</select>';
@@ -792,7 +792,7 @@ $username=$_SESSION['username'];
                 $table_options .='<option value="'.$tableNum.'">'.$tableType.'</option>';
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: blue; background-color:#89C2F2; padding:10px;'>This venue has no tables to remove. Job well done!</div>";
         }
 
 		$del_table= ' Select table type to remove: <select name="del_table">'.$table_options.'</select>';
@@ -896,7 +896,7 @@ $username=$_SESSION['username'];
 		$result15 = $conn->query($sql15);
 		$result15;
 		if ($result15 === TRUE) {
-    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">Record modified successfully.</div>';
    
 		} else {
     		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql15 ."<br>". $conn->error."</div>";
