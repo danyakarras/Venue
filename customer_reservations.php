@@ -101,7 +101,7 @@ if ($result->num_rows > 0) {
 		$date = $row["date"];
 		$time = $row["time"];
 
-		$reservationList .=  '<div style="padding: 20px; height: 80px; width:50%;background:rgba(20, 20, 20, 0.7); border: 1px solid black; ">'.$venueName.'<br> On '.$date.' at '.$time.'<br>Confirmation number: '.$confirmationNum.'<br>For '.$numOfGuests.' Guest(s)<br><a href="cancel_confirm.php?confirmationNum='.$confirmationNum.'" onclick="return confirm(\'Are you sure?\')"><button class = "mini_button" style= "font-size: 12px;padding: 2px;width: 70px;"value ="$confirmationNum">Cancel</button></a></div><br>';
+		$reservationList .=  '<div style="padding: 20px; height: 100px; width:50%;background:rgba(20, 20, 20, 0.7); border: 1px solid black; ">'.$venueName.'<br> On '.$date.' at '.$time.'<br>Confirmation number: '.$confirmationNum.'<br>For '.$numOfGuests.' Guest(s)<br><a href="cancel_confirm.php?confirmationNum='.$confirmationNum.'" onclick="return confirm(\'Are you sure?\')"><button class = "mini_button" style= "font-size: 12px;padding: 2px;width: 70px;"value ="$confirmationNum">Cancel</button></a></div><br>';
 
 		
 		// <a href="http://stackoverflow.com" 
