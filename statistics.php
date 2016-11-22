@@ -318,6 +318,14 @@ if(isset($_POST['submit3'])){
                 $evid = $row["evid"];
                 $eventnamelist[$evid] = $eventName;
             }
+
+
+
+
+
+
+
+
         } else {
         	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No events to display.</div>";
         }
@@ -347,13 +355,18 @@ if(isset($_POST['submit3'])){
 				$maxHot=$row["maxhot"];
 				$branchID = $row["branchID"];
 				$evid = $row["evid"];
-				$maxeventlist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$maxHot.'</td></tr>';
+				if (isset($eventnamelist[$evid]) && isset($venuelist[$branchID])){
+					$maxeventlist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$maxHot.'</td></tr>';
+				}
+				
 			}
 		}
 
 		if($result->num_rows == 0) {
 			echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No result to display.</div>";
 		} else {
+			if($maxeventlist != "") {
+
 				echo '	<table style="width:30%">
 					<tr>
 				    <th>Event</th> 
@@ -361,7 +374,9 @@ if(isset($_POST['submit3'])){
 					</tr>
 					'.$maxeventlist.'
 					</table>';
+			}
 		}
+	
 
 		$conn->close();
 		
@@ -448,13 +463,17 @@ if(isset($_POST['submit4'])){
 				$minHot=$row["minhot"];
 				$branchID = $row["branchID"];
 				$evid = $row["evid"];
-				$mineventlist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$minHot.'</td></tr>';
+				if(isset($eventnamelist[$evid]) && isset($venuelist[$branchID])) {
+					$mineventlist .=  '<tr><td>'.$eventnamelist[$evid].' at '.$venuelist[$branchID].'</td><td>'.$minHot.'</td></tr>';
+				}
+				
 			}
 		}
 
 		if($minresult->num_rows == 0) {
 			echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No result to display.</div>";
 		} else {
+			if($mineventlist != "") {
 				echo '	<table style="width:30%">
 					<tr>
 				    <th>Event</th> 
@@ -462,6 +481,9 @@ if(isset($_POST['submit4'])){
 					</tr>
 					'.$mineventlist.'
 					</table>';	
+				
+				
+			}
 		}
 
 		$conn->close();
