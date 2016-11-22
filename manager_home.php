@@ -26,9 +26,25 @@ $username=$_SESSION['username'];
 <h1>Welcome to VENUE</h1>
 <h3>You are logged in as a Manager</h3>
 <br>
+<?php
+$successFeedback = false; //not sure if they should be boolean or?
+$error = false;
+$errorFeedback = '';
+?>
+
 <a href="http://localhost/304_project/statistics.php"><button class="button" style="width:150px;height:50px;" id="StatsBtn" >See Company Statistics</button></a>
 <br>
 <br>
+
+
+
+<div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;" value="<?php echo $successFeedback ?>" >New record created successfully.</div> <br>
+
+<div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;' value="<?php echo $error ?>"><?php echo $errorFeedback ?></div><br>
+
+
+
+
 <div class="well well-lg">
 <h3>Add Event:</h3>
 
@@ -274,13 +290,14 @@ $username=$_SESSION['username'];
 	if(isset($_POST['submit3'])){
 
 		//add trigger to add tables for this new venue, assuming that every new venue has capacity for the 3 basic types of tables i.e. bar, intimate and regular
-		
-		$addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
-								FOR EACH ROW BEGIN 
-								INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.95, NEW.branchID);
-								INSERT INTO `venuehastable` VALUES ('', 1, 30, 'bar', 3.95, NEW.branchID);
-								INSERT INTO `venuehastable` VALUES ('', 6, 15, 'regular', 7.99, NEW.branchID);
-								END;"; //tableNum is auto-incremented
+		// INSERT INTO `venuehastable` VALUES ('', 1, 30, 'bar', 3.95, NEW.branchID);
+		// INSERT INTO `venuehastable` VALUES ('', 6, 15, 'regular', 7.99, NEW.branchID);
+		//$addTablesToVenue = "CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue`.`venue`
+								// FOR EACH ROW BEGIN 
+								// INSERT INTO `venuehastable` VALUES ('', 2, 10, 'intimate', 12.12, :new.branchID);
+								// END;"; //tableNum is auto-incremented
+
+		// CREATE TRIGGER `addtablestovenue` AFTER INSERT ON `venue` FOR EACH ROW INSERT INTO `venuehastable` (size, numOfTableType, type, cost, branchID) VALUES ( 2, 30, 'intimate', 12.12, new.branchID);
 
 		$servername = "localhost";
 	    $username = "root";
@@ -292,7 +309,7 @@ $username=$_SESSION['username'];
 	    if($conn->connect_error) {
 	    die("Connection falied: " . $conn->connect_error);
 	    }
-	    $conn->query($addTablesToVenue); //FOR THE TRIGGER
+	    //$conn->query($addTablesToVenue); //FOR THE TRIGGER
 
 	    
 		$input_vName = $_POST['vname'];
@@ -306,8 +323,12 @@ $username=$_SESSION['username'];
 		$result3;
 		if ($result3 === TRUE) {
     		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
+    		$successFeedback = true;
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql3 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql3 ."<br>". $conn->error."</div>";
+    		//maybe this will work?
+    		$error = true;
+    		$errorFeedback = 'Error: ". $sql3 ."<br>". $conn->error."';
 		}
 		$conn->close();
 	}
@@ -350,7 +371,7 @@ $username=$_SESSION['username'];
 		if ($result4 === TRUE) {
     		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
 		} else {
-    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql4 ."<br>". $conn->error."</div>"; //I hope this is right, how to check?
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql4 ."<br>". $conn->error."</div>";
 		}
 
 		$conn->close();
