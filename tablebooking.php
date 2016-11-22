@@ -8,17 +8,68 @@ else
 {
 $cid=$_SESSION['user'];
 $username=$_SESSION['username'];
-
-
-
 ?>
+<?php
+$servername = "localhost";
+$usernameroot = "root";
+$password = NULL;
+$databasename = 'Venue';
+
+//connect
+$conn = new mysqli($servername, $usernameroot, $password, $databasename);
+
+//check connecting
+if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+}
+
+$sql = "SELECT name, branchID FROM `venue`";
+$result = $conn->query($sql);
+
+$names = array();
+$ids = array();
+$venue_dropdowns = "";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		$venue_dropdowns.= '<a href = "http://localhost/304_project/venue_page.php?branchID='.$row["branchID"].'"> '.$row["name"].' </a>';
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+ ?>
+
 
 <!DOCTYPE html>
 <html>
     <head>
-    </head>
-    <body>
-<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
+<link rel="stylesheet" type="text/css" href="customer.css">
+</head>
+    <body background="party.jpg">
+	<ul>
+  <li><a class="active" href="http://localhost/304_project/home.php">Home</a></li>
+  <li><a href="http://localhost/304_project/events.php">Events</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Venues</a>
+    <div class="dropdown-content">
+	  <?php echo $venue_dropdowns; ?>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Account</a>
+    <div class="dropdown-content">
+	  <a href="customer_reservations.php">My Reservations</a>
+	  <a href="customer_tickets.php">My Tickets</a>
+	  <a href="customer_account.php">Account Settings</a>
+    </div>
+  </li>
+  <li style="float:right">
+  Logged in as <?php echo $username; ?>  <a href="http://localhost/304_project/logout.php">Logout</a>
+  </li>
+</ul>
+
         <?php 
         $evid = $_GET['evid'];
         $branchID = $_GET['branchID'];
@@ -59,7 +110,7 @@ $username=$_SESSION['username'];
         $conn->close();
 
         ?>
-        <h2>Reserve a Table</h2>
+        <h1 style="padding-left: 20px;">Reserve a Table</h1>
         
         <!-- dropdown of next 14 days, cannot reserve further in the future -->
         <?php
@@ -73,12 +124,12 @@ $username=$_SESSION['username'];
             $number_of_guests.='<option value="'.$z.'">'.$z.' guest(s)</option>';
         }
 
-        $table_picker='<select name="table">'.$table_option.'</select>';
-        $guestsNum_picker='<select name="guests">'.$number_of_guests.'</select>';
+        $table_picker='<select style="padding: 4px; margin-left: 20px;border-radius: 4px;font-size: 18px;" name="table">'.$table_option.'</select>';
+        $guestsNum_picker='<select style="padding: 4px; margin-left: 20px;border-radius: 4px;font-size: 18px; margin-right: 10px;" name="guests">'.$number_of_guests.'</select>';
 
         //append all the dropdowns
         echo '<form action="#" method="post">'.$table_picker.$guestsNum_picker.'
-        <input type="submit" name="submit" value="Reserve" />
+        <input class="mini_button" type="submit" name="submit" value="Reserve" />
         </form>';
 
         if(isset($_POST['submit'])){
