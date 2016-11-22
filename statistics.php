@@ -68,17 +68,19 @@ if(isset($_POST['submit2'])){
 
 		if ($result2->num_rows == 0) {
     		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No Vip's to display.</div>"; 
+		} else {
+				echo '	<br><table style="width:25%">
+						<tr>
+					    <th>First Name</th>
+					    <th>Last Name</th> 
+						</tr>
+						'.$viplist.'
+						</table>';	
 		}
 
 		$conn->close();
 		
-	echo '	<br><table style="width:25%">
-	<tr>
-    <th>First Name</th>
-    <th>Last Name</th> 
-	</tr>
-	'.$viplist.'
-	</table>';	
+
 	}
 ?>
 
@@ -121,7 +123,7 @@ if(isset($_POST['submit6'])){
                 $venuelist[$branchID] = $venueName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>There are no venues.</div>";
         }
 		
 	$sqle = "SELECT name, evid FROM `hostedevent`";
@@ -135,7 +137,7 @@ if(isset($_POST['submit6'])){
                 $eventnamelist[$evid] = $eventName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>There are no events happening at any of the venues.</div>";
         }
 
 		
@@ -154,15 +156,21 @@ if(isset($_POST['submit6'])){
 			}
 		}
 
+		if ($resulttickets->num_rows == 0) {
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No tickets to display.</div>"; 
+		} else {
+				echo '<br>	<table style="width:30%">
+				<tr>
+			    <th>Event</th> 
+			    <th>tickets sold</th>
+				</tr>
+				'.$ticketlist.'
+				</table>';
+			}
+
 		$conn->close();
 		
-	echo '<br>	<table style="width:30%">
-	<tr>
-    <th>Event</th> 
-    <th>tickets sold</th>
-	</tr>
-	'.$ticketlist.'
-	</table>';		
+		
 	}
 	?>
 
@@ -188,19 +196,19 @@ echo '<form action="#" class="form-inline" method="post">'.$hotness.'
 
 if(isset($_POST['submit1'])){
 
-		$servername = "localhost";
-	    $username = "root";
-	    $password = NULL;
-	    $databasename = 'Venue';
-	    //connect
-	    $conn = new mysqli($servername, $username, $password, $databasename);
-	    //check connecting
-	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
-	    }
-		
-		
-		$sqlv = "SELECT name, branchID FROM `venue`";
+	$servername = "localhost";
+    $username = "root";
+    $password = NULL;
+    $databasename = 'Venue';
+    //connect
+    $conn = new mysqli($servername, $username, $password, $databasename);
+    //check connecting
+    if($conn->connect_error) {
+    die("Connection falied: " . $conn->connect_error);
+    }
+	
+	
+	$sqlv = "SELECT name, branchID FROM `venue`";
 
 	$venuelist = array();
 	$venues = $conn->query($sqlv);
@@ -211,7 +219,7 @@ if(isset($_POST['submit1'])){
                 $venuelist[$branchID] = $venueName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No venues to display.</div>";
         }
 		
 	$sqle = "SELECT name, evid FROM `hostedevent`";
@@ -225,7 +233,7 @@ if(isset($_POST['submit1'])){
                 $eventnamelist[$evid] = $eventName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No events to display.</div>";
         }
 
 		
@@ -244,15 +252,21 @@ if(isset($_POST['submit1'])){
 			}
 		}
 
+		if ($result->num_rows == 0) {
+			echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No result to display.</div>";
+		} else {
+				echo '<br>	<table style="width:30%">
+					<tr>
+				    <th>Event</th> 
+				    <th>avg hotness</th>
+					</tr>
+					'.$tablelist.'
+					</table>';
+		}
+
 		$conn->close();
 		
-	echo '<br>	<table style="width:30%">
-	<tr>
-    <th>Event</th> 
-    <th>avg hotness</th>
-	</tr>
-	'.$tablelist.'
-	</table>';		
+		
 	}
 	?>
 
@@ -269,18 +283,18 @@ echo '<form action="#" class="form-inline" method="post">'.$maxhot2.'
 
 if(isset($_POST['submit3'])){
 
-		$servername = "localhost";
-	    $username = "root";
-	    $password = NULL;
-	    $databasename = 'Venue';
-	    //connect
-	    $conn = new mysqli($servername, $username, $password, $databasename);
-	    //check connecting
-	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
-	    }
-		
-		$sqlv = "SELECT name, branchID FROM `venue`";
+	$servername = "localhost";
+    $username = "root";
+    $password = NULL;
+    $databasename = 'Venue';
+    //connect
+    $conn = new mysqli($servername, $username, $password, $databasename);
+    //check connecting
+    if($conn->connect_error) {
+    die("Connection falied: " . $conn->connect_error);
+    }
+	
+	$sqlv = "SELECT name, branchID FROM `venue`";
 
 	$venuelist = array();
 	$venues = $conn->query($sqlv);
@@ -291,7 +305,7 @@ if(isset($_POST['submit3'])){
                 $venuelist[$branchID] = $venueName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No venues to display.</div>";
         }
 		
 	$sqle = "SELECT name, evid FROM `hostedevent`";
@@ -305,23 +319,23 @@ if(isset($_POST['submit3'])){
                 $eventnamelist[$evid] = $eventName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No events to display.</div>";
         }
 		
 		$sql4 = "SELECT MAX(avghot) AS maxhot,branchID,evid 
-FROM
-(SELECT AVG(hotness) AS avghot,branchID,evid 
- FROM `customer` c, `buysticketsfor` t 
- WHERE c.cid = t.cid 
- GROUP BY branchID, evid) 
- AS T
- WHERE avghot = 
-	(SELECT MAX(avghot)
-	FROM (SELECT AVG(hotness) AS avghot,branchID,evid 
- FROM `customer` c, `buysticketsfor` t 
- WHERE c.cid = t.cid 
- GROUP BY branchID, evid) 
- AS T)";
+				FROM
+				(SELECT AVG(hotness) AS avghot,branchID,evid 
+				 FROM `customer` c, `buysticketsfor` t 
+				 WHERE c.cid = t.cid 
+				 GROUP BY branchID, evid) 
+				 AS T
+				 WHERE avghot = 
+					(SELECT MAX(avghot)
+					FROM (SELECT AVG(hotness) AS avghot,branchID,evid 
+				 FROM `customer` c, `buysticketsfor` t 
+				 WHERE c.cid = t.cid 
+				 GROUP BY branchID, evid) 
+				 AS T)";
 		
 		$result = $conn->query($sql4);
 		//add echo saying it was successful if it inserted and error if it didn't
@@ -337,15 +351,19 @@ FROM
 			}
 		}
 
+		if($result->num_rows == 0) {
+			echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No result to display.</div>";
+		} else {
+				echo '	<table style="width:30%">
+					<tr>
+				    <th>Event</th> 
+				    <th>max hotness</th>
+					</tr>
+					'.$maxeventlist.'
+					</table>';
+		}
+
 		$conn->close();
-		
-	echo '	<table style="width:30%">
-	<tr>
-    <th>Event</th> 
-    <th>max hotness</th>
-	</tr>
-	'.$maxeventlist.'
-	</table>';	
 		
 	}
 	?>
@@ -365,19 +383,19 @@ echo '<form action="#" class="form-inline" method="post">'.$minhot.'
 
 if(isset($_POST['submit4'])){
 
-		$servername = "localhost";
-	    $username = "root";
-	    $password = NULL;
-	    $databasename = 'Venue';
-	    //connect
-	    $conn = new mysqli($servername, $username, $password, $databasename);
-	    //check connecting
-	    if($conn->connect_error) {
-	    die("Connection falied: " . $conn->connect_error);
-	    }
-		
-		
-		$sqlv = "SELECT name, branchID FROM `venue`";
+	$servername = "localhost";
+    $username = "root";
+    $password = NULL;
+    $databasename = 'Venue';
+    //connect
+    $conn = new mysqli($servername, $username, $password, $databasename);
+    //check connecting
+    if($conn->connect_error) {
+    die("Connection falied: " . $conn->connect_error);
+    }
+	
+	
+	$sqlv = "SELECT name, branchID FROM `venue`";
 
 	$venuelist = array();
 	$venues = $conn->query($sqlv);
@@ -388,7 +406,7 @@ if(isset($_POST['submit4'])){
                 $venuelist[$branchID] = $venueName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No venues to display.</div>";
         }
 		
 	$sqle = "SELECT name, evid FROM `hostedevent`";
@@ -402,24 +420,24 @@ if(isset($_POST['submit4'])){
                 $eventnamelist[$evid] = $eventName;
             }
         } else {
-        	echo "0 results";
+        	echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No events to display.</div>";
         }
 		
 		$sql5 = "SELECT MIN(avghot) AS minhot,branchID,evid 
-FROM
-(SELECT AVG(hotness) AS avghot,branchID,evid 
- FROM `customer` c, `buysticketsfor` t 
- WHERE c.cid = t.cid 
- GROUP BY branchID, evid) 
- AS T
- WHERE avghot = 
-	(SELECT MIN(avghot)
-	FROM (SELECT AVG(hotness) AS avghot,branchID,evid 
- FROM `customer` c, `buysticketsfor` t 
- WHERE c.cid = t.cid 
- GROUP BY branchID, evid) 
- AS T)";
-		
+				FROM
+				(SELECT AVG(hotness) AS avghot,branchID,evid 
+				 FROM `customer` c, `buysticketsfor` t 
+				 WHERE c.cid = t.cid 
+				 GROUP BY branchID, evid) 
+				 AS T
+				 WHERE avghot = 
+					(SELECT MIN(avghot)
+					FROM (SELECT AVG(hotness) AS avghot,branchID,evid 
+				 FROM `customer` c, `buysticketsfor` t 
+				 WHERE c.cid = t.cid 
+				 GROUP BY branchID, evid) 
+				 AS T)";
+						
 		$minresult = $conn->query($sql5);
 		//add echo saying it was successful if it inserted and error if it didn't
 		
@@ -434,19 +452,22 @@ FROM
 			}
 		}
 
+		if($minresult->num_rows == 0) {
+			echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>No result to display.</div>";
+		} else {
+				echo '	<table style="width:30%">
+					<tr>
+				    <th>Event</th> 
+				    <th>min hotness</th>
+					</tr>
+					'.$mineventlist.'
+					</table>';	
+		}
+
 		$conn->close();
-		
-	echo '	<table style="width:30%">
-	<tr>
-    <th>Event</th> 
-    <th>min hotness</th>
-	</tr>
-	'.$mineventlist.'
-	</table>';	
 		
 	}
 	?>
-
 
 <br>
 
