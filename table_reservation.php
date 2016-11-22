@@ -8,22 +8,71 @@ else
 {
 $cid=$_SESSION['user'];
 $username=$_SESSION['username'];
-
-
-
 ?>
+
+<?php
+
+
+$servername = "localhost";
+$usernameroot = "root";
+$password = NULL;
+$databasename = 'Venue';
+
+//connect
+$conn = new mysqli($servername, $usernameroot, $password, $databasename);
+
+//check connecting
+if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+}
+
+$sql = "SELECT name, branchID FROM `venue`";
+$result = $conn->query($sql);
+
+$names = array();
+$ids = array();
+$venue_dropdowns = "";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		$venue_dropdowns.= '<a href = "http://localhost/304_project/venue_page.php?branchID='.$row["branchID"].'"> '.$row["name"].' </a>';
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"> 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  </head>
-    <body>
-<div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
+<link rel="stylesheet" type="text/css" href="customer.css">
+</head>
+    <body background="party.jpg">
+	
+	<ul>
+  <li><a class="active" href="http://localhost/304_project/home.php">Home</a></li>
+  <li><a href="http://localhost/304_project/events.php">Events</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Venues</a>
+    <div class="dropdown-content">
+	  <?php echo $venue_dropdowns; ?>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropbtn">Account</a>
+    <div class="dropdown-content">
+	  <a href="customer_reservations.php">My Reservations</a>
+	  <a href="customer_tickets.php">My Tickets</a>
+	  <a href="customer_account.php">Account Settings</a>
+    </div>
+  </li>
+  <li style="float:right">
+  Logged in as <?php echo $username; ?>  <a href="http://localhost/304_project/logout.php">Logout</a>
+  </li>
+</ul>
+	
         <?php 
 
         $branchID = $_GET['branchID'];
@@ -60,7 +109,7 @@ $username=$_SESSION['username'];
         $conn->close();
 
         ?>
-        <h2>Reserve a Table</h2>
+        <h1 style="padding-left: 20px;">Reserve a Table</h1>
         
         <!-- dropdown of next 14 days, cannot reserve further in the future -->
         <?php
@@ -89,14 +138,14 @@ $username=$_SESSION['username'];
             $number_of_guests.='<option value="'.$z.'">'.$z.' guest(s)</option>';
         }
 
-        $date_picker='<select name="date">'.$day_option.'</select>';
-        $time_picker = '<select name="time">'.$time_option.'</select>';
-        $table_picker='<select name="table">'.$table_option.'</select>';
-        $guestsNum_picker='<select name="guests">'.$number_of_guests.'</select>';
+        $date_picker='<select style="padding: 4px; margin-left: 20px;border-radius: 4px;font-size: 18px;" name="date">'.$day_option.'</select>';
+        $time_picker = '<select style="padding: 4px; margin-left: 10px;border-radius: 4px;font-size: 18px;" name="time">'.$time_option.'</select>';
+        $table_picker='<select style="padding: 4px; margin-left: 10px;border-radius: 4px;font-size: 18px;" name="table">'.$table_option.'</select>';
+        $guestsNum_picker='<select style="padding: 4px; margin-left: 10px;border-radius: 4px;font-size: 18px;" name="guests">'.$number_of_guests.'</select>';
 
         //append all the dropdowns
         echo '<form action="#" method="post">'.$date_picker.$time_picker.$table_picker.$guestsNum_picker.'
-        <input type="submit" name="submit" value="Reserve" />
+        <input class="mini_button" type="submit" name="submit" value="Reserve" />
         </form>';
 
         if(isset($_POST['submit'])){
@@ -138,12 +187,6 @@ $username=$_SESSION['username'];
             $eventCheck = 1;
         }
 
-        // if ($result3 === TRUE) {
-        //     echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
-        //     $successFeedback = true;
-        // } else {
-        //     echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql3 ."<br>". $conn->error."</div>";
-
         $result2 = $conn->query($sql2);
         if($result2->num_rows > 0) {
             while($row2 = $result2->fetch_assoc()) {
@@ -178,7 +221,7 @@ $username=$_SESSION['username'];
 
         }else {
             //no time/date conflict so just make a reservation without checking for the number of spaces taken up
-            echo "<br><div style='border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;'>Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.</div>";
+            echo "<br><div style='border-style: solid; color: #222222; border-color: green; background-color:#daf7a6; padding:10px;'>Reservation made! The cost of the table is $".$cost.". It will be added to your final bill.</div>";
             //add INSERT INTO query
             $sqlInsertReservation = "INSERT INTO `tablereservation` VALUES ('', '$selected_date', '$selected_time', '$selected_guests', '$cid', '$selected_table', '$selected_branchID')"; //confirmationNum is auto-incremented
             $result = $conn->query($sqlInsertReservation);
