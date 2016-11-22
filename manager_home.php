@@ -585,15 +585,19 @@ $username=$_SESSION['username'];
                 $ent_name = $row["name"];
                 $ent_options .='<option value="'.$ent_en.','.$ebr.','.$eev.'">'.$ent_name.'</option>';
             }
-        } else {
-        	echo "<br><div style='border-style: solid; border-color: blue; background-color:#89C2F2; padding:10px;'>This event does not have entertainment.</div>";
-        }
 
-		$del_ent= ' <label> Select entertainment to remove: </label> <select name="del_ent" class="form-control" >'.$ent_options.'</select>';
+
+            $del_ent= ' <label> Select entertainment to remove: </label> <select name="del_ent" class="form-control" >'.$ent_options.'</select>';
 		
 		echo '<form action="#" class="form-inline" method="post">'.$del_ent.'
 	        <input type="submit" name="submit14" value="Submit" />
 	        </form>';
+
+        } else {
+        	echo "<br><div style='border-style: solid; border-color: blue; background-color:#89C2F2; padding:10px;'>This event does not have entertainment.</div>";
+        }
+
+		
 			
 		$conn->close();
 	}
@@ -791,15 +795,18 @@ $username=$_SESSION['username'];
                 $tableType = $row["type"];
                 $table_options .='<option value="'.$tableNum.'">'.$tableType.'</option>';
             }
-        } else {
-        	echo "<br><div style='border-style: solid; border-color: blue; background-color:#89C2F2; padding:10px;'>This venue has no tables to remove. Job well done!</div>";
-        }
 
-		$del_table= ' Select table type to remove: <select name="del_table">'.$table_options.'</select>';
+
+            $del_table= ' Select table type to remove: <select name="del_table">'.$table_options.'</select>';
 		
 		echo '<form action="#" method="post">'.$del_table.'
 	        <input type="submit" name="submit12" value="Submit" />
 	        </form>';
+        } else {
+        	echo "<br><div style='border-style: solid; border-color: blue; background-color:#89C2F2; padding:10px;'>This venue has no tables to remove. Job well done!</div>";
+        }
+
+		
 			
 		$conn->close();
 	}

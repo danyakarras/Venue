@@ -106,22 +106,22 @@
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
     
     	
-            	<h2 class="">Sign In.</h2>
+            	<h2 style="margin-left: 20px;" class="">Sign In.</h2>
             
 			<?php echo $errMSG; ?>
-			<input type="text" name="firstname" placeholder="Your First Name" maxlength="40" />
+			<input style="margin-left: 20px;" type="text" name="firstname" placeholder="Your First Name" maxlength="40" />
             <?php echo $firstnameError; ?>
             <br><br>
-            <input type="text" name="lastname" placeholder="Your Last Name" maxlength="40" />
+            <input style="margin-left: 20px;" type="text" name="lastname" placeholder="Your Last Name" maxlength="40" />
             <?php echo $lastnameError; ?>
             <br><br>
-            <input type="email" name="email" placeholder="Your Email" maxlength="40" />
+            <input style="margin-left: 20px;" type="email" name="email" placeholder="Your Email" maxlength="40" />
             <?php echo $emailError; ?>
             <br><br>
-           <input type="password" name="pass" placeholder="Your Password" maxlength="15" />
+           <input style="margin-left: 20px;" type="password" name="pass" placeholder="Your Password" maxlength="15" />
            <?php echo $passError; ?>
 			<br><br>
-           <button type="submit" name="login">Sign In</button>
+           <button style="margin-left: 20px;" type="submit" name="login">Sign In</button>
            <br><br>
           
     </form>
