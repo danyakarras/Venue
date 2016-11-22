@@ -23,10 +23,10 @@ $username=$_SESSION['username'];
   </head>
 <body>
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
-<h1>Welcome to VENUE</h1>
-<h3>You are logged in as a Manager</h3>
+<h1 style="margin-left:20px;">Welcome to VENUE</h1>
+<h3 style="margin-left:20px;">You are logged in as a Manager</h3>
 <br>
-<a href="http://localhost/304_project/statistics.php"><button class="button" style="width:150px;height:50px;" id="StatsBtn" >See Company Statistics</button></a>
+<a href="http://localhost/304_project/statistics.php"><button class="button" style="width:200px;height:80px; margin-left:20px; font-size: 18px; border-radius: 4px; color: #336a99;" id="StatsBtn" >See Company Statistics</button></a>
 <br>
 <br>
 
@@ -264,7 +264,7 @@ $username=$_SESSION['username'];
 	<?php 
 	$vname = ' <label>Venue Name:</label> <input type="text" name="vname" class="form-control">';
 	$address = ' <label>Address:</label> <input type="text" name="address" class="form-control">';
-	$capacity = ' <label>Max. Capacity:</label> <input type="number" name="capacity" step="1" min="0" class="form-control">';
+	$capacity = ' <label>Max. Capacity:</label> <input type="number" name="capacity" step="1" min="0" class="form-control"><br><br>';
 	$cover_charge = ' <label>Cover charge:</label> <input type="number" name="cover" step="0.01" min="0" class="form-control">';
 
 	echo '<form action="#" class="form-inline" method="post">'.$vname.$address.$capacity.$cover_charge.'
@@ -365,8 +365,8 @@ $username=$_SESSION['username'];
 	<?php 
 	$tableNum = '  <label>Table Number: </label> <input type="number" name="tnum" step="1" min="0" class="form-control" >';
 	$tableSize = ' <label>Table Size: </label> <input type="number" name="tsize" step="1" min="0" class="form-control" >';
-	$tType = ' <label> Table Type: </label><input type="text" name="ttype" class="form-control" >';
-	$numOfTType = ' <label> Num of Table Type: </label> <input type="number" name="numttype" step="1" min="0" class="form-control" ><br><br>';
+	$tType = ' <label> Table Type: </label><input type="text" name="ttype" class="form-control" ><br><br>';
+	$numOfTType = ' <label> Num of Table Type: </label> <input type="number" name="numttype" step="1" min="0" class="form-control" >';
 	$tableCost = ' <label>Table Cost: </label> <input type="number" name="tCost" step="0.01" min="0" class="form-control" >';
 	$tvenue = ' <label> Venue: </label> <select name="tbranchID" class="form-control" >'.$venue_options.'</select>';
 
@@ -837,6 +837,81 @@ $username=$_SESSION['username'];
 	<br>
 	<br>
 	</div>
+	<div class="well well-lg">
+<h3>Update Venue:</h3>
+	<?php 
+	
+	$servername = "localhost";
+	$username = "root";
+	$password = NULL;
+	$databasename = 'Venue';
+	//connect
+	$conn = new mysqli($servername, $username, $password, $databasename);
+	//check connecting
+	if($conn->connect_error) {
+	die("Connection falied: " . $conn->connect_error);
+	}
+
+	$sqlvid = "SELECT branchID FROM `venue`";
+
+	$venueid_options = '';
+	$venueids = $conn->query($sqlvid);
+        if($venueids->num_rows > 0) {
+            while($row = $venueids->fetch_assoc()) {
+                $branchID = $row["branchID"];
+                $venueid_options .='<option value="'.$branchID.'">'.$branchID.'</option>';
+            }
+        } else {
+        	echo "0 results";
+        }
+
+	$vid = ' <label for="branchID">Venue ID:</label> <select name="vid" class="form-control">'.$venueid_options.'</select>';
+	$vname = ' <label>Venue Name:</label> <input type="text" name="vname" class="form-control">';
+
+	echo '<form action="#" class="form-inline" method="post">'.$vid.$vname.'
+	        <input type="submit" name="submit15" value="Submit" />
+	        </form>';
+	
+
+	$conn->close();
+	if(isset($_POST['submit15'])){
+
+		$servername = "localhost";
+	    $username = "root";
+	    $password = NULL;
+	    $databasename = 'Venue';
+	    //connect
+	    $conn = new mysqli($servername, $username, $password, $databasename);
+	    //check connecting
+	    if($conn->connect_error) {
+	    die("Connection falied: " . $conn->connect_error);
+	    }
+	    //$conn->query($addTablesToVenue); //FOR THE TRIGGER
+
+	    $input_vid = $_POST['vid'];
+		$input_vName = $_POST['vname'];
+      
+		$sql15 = "UPDATE `venue` SET name = '$input_vName' WHERE branchID = '$input_vid'";
+		//add echo saying it was successful if it inserted and error if it didn't
+		$result15 = $conn->query($sql15);
+		$result15;
+		if ($result15 === TRUE) {
+    		echo '<br><div style="border-style: solid; border-color: green; background-color:#daf7a6; padding:10px;">New record created successfully.</div>';
+   
+		} else {
+    		echo "<br><div style='border-style: solid; border-color: red; background-color:#f2d7d5; padding:10px;'>Error: ". $sql15 ."<br>". $conn->error."</div>";
+		}
+		$conn->close();
+	}
+	?>
+	
+
+
+
+
+<br>
+</div>
+	<br>
 	<br>
 	<br>
 </body>

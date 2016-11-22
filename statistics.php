@@ -22,7 +22,7 @@ $username=$_SESSION['username'];
   </head>
 <body>
 <div style="text-align:right;">Logged in as <?php echo $username; ?> | <a href="http://localhost/304_project/logout.php">Logout</a></div>
-<h1>Statistics Page</h1>
+<h1 style="margin-left:20px;">Statistics Page</h1>
 
 <div class="well well-lg">
 <h4>Customers who've been to every venue</h4> <!-- **THIS IS DIVISION** -->
